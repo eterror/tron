@@ -21,7 +21,7 @@ Array.matrix = function(numrows, numcols, initial){
 }
 
 // PREDEFINED VALUES
-const version = 2.0.2;
+const version = "2.0.2";
 
 const dLeft = 0;
 const dRight = 1;
@@ -85,7 +85,7 @@ function TPlayer(X, Y) {
     	destination.fillRect(swidth-160, 10, 150, 120);
     	destination.fillStyle = "black";
     	destination.font = "15px Arial";
-    	destination.fillText('x: '+this.x+' mx: '+Math.floor(this.x/psize), swidth-150, 30);
+    	destination.fillText('X: '+this.x+' mx: '+Math.floor(this.x/psize), swidth-150, 30);
     	destination.fillText('y: '+this.y+' my: '+Math.floor(this.y/psize), swidth-150, 45);
     	destination.fillText('Direction: '+dstr, swidth-150, 60);
     	destination.fillText('Turbo: '+this.cturbo, swidth-150, 75);
