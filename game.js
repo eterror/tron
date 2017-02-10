@@ -6,7 +6,7 @@
 // highscores (multi)
 // player dbase
 // single + editor
-// custom maps hey hey hey??? etetert
+// custom maps
 
 Array.matrix = function(numrows, numcols, initial){
    var arr = [];
@@ -21,7 +21,7 @@ Array.matrix = function(numrows, numcols, initial){
 }
 
 // PREDEFINED VALUES
-const version = 2.0.4;
+const version = 2.0.2;
 
 const dLeft = 0;
 const dRight = 1;
