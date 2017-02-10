@@ -21,7 +21,7 @@ Array.matrix = function(numrows, numcols, initial){
 }
 
 // PREDEFINED VALUES
-const version = "2.0.2";
+const version = "2.0";
 
 const dLeft = 0;
 const dRight = 1;
@@ -96,7 +96,7 @@ function TPlayer(X, Y) {
 }
 
 
-// global sets
+/////////////////////////////////////////////////////////////////////////////////////
 var swidth = 600;
 var sheight = 400;
 
@@ -116,8 +116,11 @@ var s_engine = new Audio("sound/engine.wav");
 var player = new TPlayer(1, 1);
 var map = new TBoard();
 
+/////////////////////////////////////////////////////////////////////////////////////
 
-function isOdd(num) { return num % 2;}
+function isOdd(i) { 
+	return i % 2;
+}
 
 function sleep(delay) {
     var start = new Date().getTime();
@@ -145,7 +148,7 @@ function restart() {
     drawMap();
 
     s_engine.play();
-    s_engine.volume = .4;
+    s_engine.volume = .3;
 }
 
 function clearMap() {
@@ -173,7 +176,6 @@ function drawMap() {
       	}
      }
 }
-
 
 function mapEdit(x, y) {
 	var mx = x*5, my = y*5;
@@ -306,11 +308,9 @@ function eventKey(k) {
     }
 }
 
-
 function clearCanvas() {
 	c.clearRect(0, 0, swidth, sheight);
 }
-
 
 function initGame(canvas) {
     canvas = document.getElementById("game");
