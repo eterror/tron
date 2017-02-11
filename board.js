@@ -27,9 +27,11 @@ function drawMap() {
 	for (var i = 0; i < map.boardx; i+=5)
       for (var j = 0; j < map.boardy; j+=5){
       	switch (map.board[i][j]) {
-      		case dFloor: c.drawImage(map.netimg, i, j); break;
-      		case dWall: c.drawImage(map.wallimg, i, j); break;
-      		case dBorder: c.drawImage(map.borderimg, i, j); break;
+      		case dFloor: c.drawImage(map.netimg, mapx+i, mapy+j); break;
+      		case dWall: c.drawImage(map.wallimg, mapx+i, mapy+j); break;
+      		case dBorder: c.drawImage(map.borderimg, mapx+i, mapy+j); break;
+      		case dPlayer: c.drawImage(player.image, mapx+i, mapy+j); break;
+      		//default dFloor: c.drawImage(map.netimg, i, j); break;
       	}
      }
 }
@@ -37,14 +39,14 @@ function drawMap() {
 function mapEdit(x, y) {
 	var mx = x*5, my = y*5;
 
-	if (mx >= map.boardx || my >= map.boardy) {
+	if (mx-mapx >= map.boardx || my-mapy >= map.boardy) {
 		return 0;
 	}
 
-	if (map.board[mx][my] == dBorder)
+	if (map.board[mx-mapx][my-mapy] == dBorder)
 		return 0;
 
-	if (map.board[mx][my] == dWall)
-		map.board[mx][my] = dFloor; else
-		map.board[mx][my] = dWall;
+	if (map.board[mx-mapx][my-mapy] == dWall)
+		map.board[mx-mapx][my-mapy] = dFloor; else
+		map.board[mx-mapx][my-mapy] = dWall;
 }

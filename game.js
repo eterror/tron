@@ -12,7 +12,7 @@
 
 
 // PREDEFINED VALUES
-const version = "2.0";
+const version = "2.1";
 
 const dLeft = 0;
 const dRight = 1;
@@ -31,7 +31,10 @@ const dJump = 99;
 
 /////////////////////////////////////////////////////////////////////////////////////
 var swidth = 600;
-var sheight = 400;
+var sheight = 500;
+
+var mapx = 5;
+var mapy = 10;
 
 var c, canvas;
 
@@ -65,18 +68,17 @@ function restart() {
     player.jump = false;
     player.turbo = false;
 
-    sleep(500);
+    sleep(300);
     clearMap();
     generateMap();
-    drawMap();
 
     s_engine.play();
-    s_engine.volume = .3;
+    s_engine.volume = .1;
 }
 
 
 function checkCollision(dir) {
-	if (player.x <= 1) { console.debug("Why?"); player.die(); return true; } // ?? :)
+	//if (player.x+mapx <= 1) { console.debug("Why?"); player.die(); return true; } // ?? :)
 
 	if (map.board[player.x][player.y] != dFloor) {
 		player.die();
@@ -89,7 +91,7 @@ function main() {
 	drawMap();
 
 	if (pause) {
-		c.fillText('PAUSE', swidth/2-20, sheight/2)
+		c.fillText('PAUSE', map.boardx/2, sheight/2)
 		return 0;
 	}
 
@@ -103,7 +105,7 @@ function main() {
 			case dDown: player.y+=(1*psize); break;
 		}
 
-		c.drawImage(player.jumpimg, player.x, player.y);
+		c.drawImage(player.jumpimg, player.x+mapx, player.y+mapy);
 
 		player.jump = false;
 		player.cjump-=1;
@@ -127,9 +129,9 @@ function main() {
 			if (checkCollision()) {
 				break;
 			};
-			
-			map.board[player.x][player.y] = dPlayer;	
-			player.draw(c);
+		
+			map.board[player.x][player.y] = dPlayer;
+            player.draw(c);
 		}
 	}
 
@@ -146,8 +148,8 @@ function main() {
 	if (!player.tempturbo)
 		checkCollision();
 
-	player.draw(c);
-    	map.board[player.x][player.y] = dPlayer;
+    map.board[player.x][player.y] = dPlayer;
+    player.draw(c);
 
 	if (player.life == false) {
     	if (sound) {
@@ -186,7 +188,13 @@ function eventKey(k) {
 		case 88: player.turbo = true; break;
 		case 90: player.jump = true; break;
 		case 80: pause = !pause; break;
-		case 68: player.debugger = !player.debugger; break;
+		case 81: player.debugger = !player.debugger; break;  // Q
+		case 68: clearCanvas(); mapx+=psize; drawMap(); break;
+		case 65: clearCanvas(); mapx-=psize; drawMap(); break;
+		case 87: clearCanvas(); mapy-=psize; drawMap(); break;
+		case 83: clearCanvas(); mapy+=psize; drawMap(); break;
+		//case 107: map.boardx+=5; map.boardy+=5; clearCanvas(); restart(); break;
+		//case 109: map.boardx-=5; map.boardy-=5; clearCanvas(); restart(); break;
 		case 27: restart(); break;
     }
 }
