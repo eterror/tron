@@ -30,6 +30,8 @@ function TPlayer(X, Y) {
 
     this.debug = function (destination) { 
     	var dstr;
+        var nx = this.x+mapx;
+        var ny = this.y+mapy;
 
     	if (!this.debugger) {
     		destination.fillStyle = "white";
@@ -45,8 +47,8 @@ function TPlayer(X, Y) {
     	destination.fillRect(swidth-160, 10, 150, 120);
     	destination.fillStyle = "black";
     	destination.font = "15px Arial";
-    	destination.fillText('X: '+this.x+mapx+' mx: '+Math.floor((this.x+mapx)/psize), swidth-150, 30);
-    	destination.fillText('y: '+this.y+mapy+' my: '+Math.floor((this.y+mapy)/psize), swidth-150, 45);
+    	destination.fillText('X: '+nx+'   mx: '+Math.floor((nx)/psize), swidth-150, 30);
+    	destination.fillText('Y: '+ny+'   my: '+Math.floor((ny)/psize), swidth-150, 45);
     	destination.fillText('Direction: '+dstr, swidth-150, 60);
     	destination.fillText('Turbo: '+this.cturbo, swidth-150, 75);
     	destination.fillText('Jump: '+this.cjump, swidth-150, 90);
