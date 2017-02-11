@@ -1,24 +1,15 @@
-// xTron by solaris (solargrim@gmail.com)
+/*
+    xTron by solaris (solargrim@gmail.com)
 
-// in future:
-// moving walls
-// multiplayer
-// highscores (multi)
-// player dbase
-// single + editor
-// custom maps
+    some description
 
-Array.matrix = function(numrows, numcols, initial){
-   var arr = [];
-   for (var i = 0; i < numrows; ++i){
-      var columns = [];
-      for (var j = 0; j < numcols; ++j){
-         columns[j] = initial;
-      }
-      arr[i] = columns;
-    }
-    return arr;
-}
+    Ideas for new release:
+     -> multiplayer
+     -> singleplayer (custom maps + timer + moving objects)
+     -> menu
+     -> half of fame
+*/
+
 
 // PREDEFINED VALUES
 const version = "2.0";
@@ -33,68 +24,10 @@ const dWall = 2;
 const dPlayer = 1;
 const dJump = 99;
 
-// objects
-function TBoard() {
-	this.boardx = 400;
-	this.boardy = 400;
-	this.borderimg = new Image();
-	this.wallimg = new Image();
-	this.netimg = new Image();
-	this.board = Array.matrix(this.boardx, this.boardy, 0);
-}
 
-function TPlayer(X, Y) {
-    this.x = X;
-    this.y = Y;
-    this.id = 1;
-    this.direction = dRight;
-    this.image = new Image();
-    this.boomimg = new Image();
-    this.jumpimg = new Image();
-    this.life = true;
-    this.trubo = false;
-    this.tempturbo = false;
-    this.cturbo;
-    this.jump = false;
-    this.cjump;
-    this.debugger = true;
-    
-
-    this.draw = function(destination) { destination.drawImage(this.image, this.x, this.y) }
-    this.die = function() { this.life = false; } 
-    this.print = function() { console.log('px: '+this.x + 'py: ' + this.y + '\n' + 'Life?: '+this.life) }
-
-    this.kaboom = function(destination) { 
-    	destination.drawImage(this.boomimg, this.x, this.y);
-    }
-
-    this.debug = function (destination) { 
-    	var dstr;
-
-    	if (!this.debugger) {
-    		destination.fillStyle = "white";
-    		destination.fillRect(swidth-160, 10, 150, 120);
-
-    		return 0;
-    	}
-
-    	if (this.direction == dLeft) dstr="Left"; if (this.direction == dRight) dstr="Right";
-    	if (this.direction == dUp) dstr="Up"; if (this.direction == dDown) dstr="Down";
-
-    	destination.fillStyle = "gray";
-    	destination.fillRect(swidth-160, 10, 150, 120);
-    	destination.fillStyle = "black";
-    	destination.font = "15px Arial";
-    	destination.fillText('X: '+this.x+' mx: '+Math.floor(this.x/psize), swidth-150, 30);
-    	destination.fillText('y: '+this.y+' my: '+Math.floor(this.y/psize), swidth-150, 45);
-    	destination.fillText('Direction: '+dstr, swidth-150, 60);
-    	destination.fillText('Turbo: '+this.cturbo, swidth-150, 75);
-    	destination.fillText('Jump: '+this.cjump, swidth-150, 90);
-    	destination.fillText('Life: '+this.life, swidth-150, 105);
-    	destination.fillText('Turbo: '+this.tempturbo, swidth-150, 120);
-    }
-}
-
+// misc.js
+// board.js
+// player.js
 
 /////////////////////////////////////////////////////////////////////////////////////
 var swidth = 600;
@@ -115,17 +48,7 @@ var s_engine = new Audio("sound/engine.wav");
 
 var player = new TPlayer(1, 1);
 var map = new TBoard();
-
 /////////////////////////////////////////////////////////////////////////////////////
-
-function isOdd(i) { 
-	return i % 2;
-}
-
-function sleep(delay) {
-    var start = new Date().getTime();
-    while (new Date().getTime() < start + delay);
- }
 
 function restart() {
     player.x = (map.boardx) / 2;
@@ -151,46 +74,6 @@ function restart() {
     s_engine.volume = .3;
 }
 
-function clearMap() {
-	for (var i = 0; i < map.boardx; ++i)
-     for (var j = 0; j < map.boardy; ++j){
-         map.board[i][j] = 0;
-     }
-}
-
-function generateMap() {
-	for (var x = 0; x < map.boardx; ++x) {map.board[x][0] = dBorder; map.board[x][map.boardy-psize] = dBorder; }
-	for (var x = 0; x < map.boardx; ++x) {map.board[0][x] = dBorder; map.board[map.boardx-psize][x] = dBorder; }
-
-		for (var x = psize+50; x < map.boardx-psize-50; ++x) { map.board[map.boardx-50][x] = dWall; }
-		for (var x = psize+50; x < map.boardx-psize-50; ++x) { map.board[50][x] = dWall; }
-}
-
-function drawMap() {
-	for (var i = 0; i < map.boardx; i+=5)
-      for (var j = 0; j < map.boardy; j+=5){
-      	switch (map.board[i][j]) {
-      		case dFloor: c.drawImage(map.netimg, i, j); break;
-      		case dWall: c.drawImage(map.wallimg, i, j); break;
-      		case dBorder: c.drawImage(map.borderimg, i, j); break;
-      	}
-     }
-}
-
-function mapEdit(x, y) {
-	var mx = x*5, my = y*5;
-
-	if (mx >= map.boardx || my >= map.boardy) {
-		return 0;
-	}
-
-	if (map.board[mx][my] == dBorder)
-		return 0;
-
-	if (map.board[mx][my] == dWall)
-		map.board[mx][my] = dFloor; else
-		map.board[mx][my] = dWall;
-}
 
 function checkCollision(dir) {
 	if (player.x <= 1) { console.debug("Why?"); player.die(); return true; } // ?? :)
@@ -306,10 +189,6 @@ function eventKey(k) {
 		case 68: player.debugger = !player.debugger; break;
 		case 27: restart(); break;
     }
-}
-
-function clearCanvas() {
-	c.clearRect(0, 0, swidth, sheight);
 }
 
 function initGame(canvas) {
