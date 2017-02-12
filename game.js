@@ -18,12 +18,6 @@ const dLeft = 0;
 const dRight = 1;
 const dUp = 2;
 const dDown = 3;
-const dFloor = 0;
-const dBorder = 10;
-const dWall = 2;
-const dPlayer = 1;
-const dJump = 99;
-
 
 // misc.js
 // board.js
@@ -49,9 +43,11 @@ var s_boom = new Audio("sound/crash.mp3");
 var s_turbo = new Audio('sound/turbo.mp3');
 var s_engine = new Audio("sound/engine.wav");
 
-var player = new TPlayer(1, 1);
+var player = new TPlayer();
 var map = new TBoard(420, 400);
+
 /////////////////////////////////////////////////////////////////////////////////////
+
 
 function restart() {
     player.x = (map.boardx) / 2;
@@ -69,8 +65,9 @@ function restart() {
     player.turbo = false;
 
     sleep(300);
-    clearMap();
-    generateMap();
+    map.clear();
+    map.pwall.length = 0;
+    map.generate();
 
     s_engine.play();
     s_engine.volume = .1;
@@ -78,8 +75,6 @@ function restart() {
 
 
 function checkCollision(dir) {
-	//if (player.x+mapx <= 1) { console.debug("Why?"); player.die(); return true; } // ?? :)
-
 	if (map.board[player.x][player.y] != dFloor) {
 		player.die();
 		return true;
@@ -88,7 +83,7 @@ function checkCollision(dir) {
 
 // other stuff
 function main() {
-	drawMap();
+	map.draw();
 
 	if (pause) {
 		c.fillText('PAUSE', map.boardx/2, sheight/2)
@@ -148,6 +143,8 @@ function main() {
 	if (!player.tempturbo)
 		checkCollision();
 
+	moveWalls();
+
     map.board[player.x][player.y] = dPlayer;
     player.draw(c);
 
@@ -193,10 +190,10 @@ function eventKey(k) {
 		case 27: restart(); break;
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
-		case 68: clearCanvas(); mapx+=psize; drawMap(); break;
-		case 65: clearCanvas(); mapx-=psize; drawMap(); break;
-		case 87: clearCanvas(); mapy-=psize; drawMap(); break;
-		case 83: clearCanvas(); mapy+=psize; drawMap(); break;
+		case 68: clearCanvas(); mapx+=psize; map.draw(); break;
+		case 65: clearCanvas(); mapx-=psize; dmap.draw(); break;
+		case 87: clearCanvas(); mapy-=psize; map.draw(); break;
+		case 83: clearCanvas(); mapy+=psize; map.draw(); break;
 		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); clearCanvas(); restart(); break;
 		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); clearCanvas(); restart(); break;
 		// -------DEBUG
@@ -225,6 +222,7 @@ function initGame(canvas) {
     map.borderimg.src = "img/border.png";
     map.wallimg.src = "img/wall.png";
     map.netimg.src = "img/net.png";
+    map.mwallimg.src = "img/mwall.png";
 
     player.boomimg.src = "img/boom.png";
     player.jumpimg.src = "img/jump.png";
