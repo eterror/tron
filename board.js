@@ -26,11 +26,12 @@ function TBoard(lengthX, lengthY) {
 		this.y = 1;
 		this.show = true;
 		this.fall = true;
-		//this.length = 1;
+		this.length = 1;
 	}
 
 	this.wall = new TWall();
 	this.pwall = [];
+	
 
 	this.draw = function() {
 		for (var i = 0; i < map.boardx; i+=psize)
@@ -136,3 +137,4 @@ function mapEdit(x, y) {
 		map.board[mx-mapx][my-mapy] = dFloor; else
 		map.board[mx-mapx][my-mapy] = dWall;
 }
+

@@ -12,7 +12,7 @@
 
 
 // PREDEFINED VALUES
-const version = "2.1";
+const version = "2.2";
 
 const dLeft = 0;
 const dRight = 1;
@@ -191,7 +191,7 @@ function eventKey(k) {
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
 		case 68: clearCanvas(); mapx+=psize; map.draw(); break;
-		case 65: clearCanvas(); mapx-=psize; dmap.draw(); break;
+		case 65: clearCanvas(); mapx-=psize; map.draw(); break;
 		case 87: clearCanvas(); mapy-=psize; map.draw(); break;
 		case 83: clearCanvas(); mapy+=psize; map.draw(); break;
 		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); clearCanvas(); restart(); break;
