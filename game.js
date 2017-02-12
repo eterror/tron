@@ -50,7 +50,7 @@ var s_turbo = new Audio('sound/turbo.mp3');
 var s_engine = new Audio("sound/engine.wav");
 
 var player = new TPlayer(1, 1);
-var map = new TBoard();
+var map = new TBoard(420, 400);
 /////////////////////////////////////////////////////////////////////////////////////
 
 function restart() {
@@ -181,21 +181,25 @@ function eventKey(k) {
 	var key = k.keyCode;
 
     switch (key) {
+    	// Move
 		case 37: if (player.direction != dRight) player.direction = dLeft; break;
 		case 39: if (player.direction != dLeft) player.direction = dRight; break;
 		case 38: if (player.direction != dDown) player.direction = dUp; break;
 		case 40: if (player.direction != dUp) player.direction = dDown; break;
+		// Stuff
 		case 88: player.turbo = true; break;
 		case 90: player.jump = true; break;
 		case 80: pause = !pause; break;
+		case 27: restart(); break;
+		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
 		case 68: clearCanvas(); mapx+=psize; drawMap(); break;
 		case 65: clearCanvas(); mapx-=psize; drawMap(); break;
 		case 87: clearCanvas(); mapy-=psize; drawMap(); break;
 		case 83: clearCanvas(); mapy+=psize; drawMap(); break;
-		//case 107: map.boardx+=5; map.boardy+=5; clearCanvas(); restart(); break;
-		//case 109: map.boardx-=5; map.boardy-=5; clearCanvas(); restart(); break;
-		case 27: restart(); break;
+		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); clearCanvas(); restart(); break;
+		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); clearCanvas(); restart(); break;
+		// -------DEBUG
     }
 }
 
