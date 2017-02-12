@@ -31,7 +31,7 @@ function TBoard(lengthX, lengthY) {
 
 	this.wall = new TWall();
 	this.pwall = [];
-	
+
 
 	this.draw = function() {
 		for (var i = 0; i < map.boardx; i+=psize)
@@ -57,7 +57,7 @@ function TBoard(lengthX, lengthY) {
 	this.generate = function() {
 		for (var x = 0; x < this.boardx; ++x) {
 			this.board[x][0] = dBorder; 
-			this.board[x][map.boardy-psize] = dBorder; 
+			this.board[x][this.boardy-psize] = dBorder; 
 		}
 
 		for (var x = 0; x < this.boardy; ++x) {
@@ -66,18 +66,27 @@ function TBoard(lengthX, lengthY) {
 		}
 	
 		for (var x = psize+50; x < this.boardy-psize-50; ++x) { 
-			this.board[map.boardx-50][x] = dWall; 
+			this.board[this.boardx-50][x] = dWall; 
 			this.board[50][x] = dWall; 
 		}
 
 		this.pwall[0] = new TWall();
 		this.pwall[1] = new TWall();
+		this.pwall[2] = new TWall();
+		this.pwall[3] = new TWall();
 	
-		this.pwall[0].x = this.boardx/2;
-		this.pwall[0].y = psize+5;
+		this.pwall[0].x = 50;
+		this.pwall[0].y = psize;
 
-		this.pwall[1].x = (this.boardx/2)+15;
-		this.pwall[1].y = psize+15;
+		this.pwall[1].x = this.boardx-50;
+		this.pwall[1].y = psize;
+
+		this.pwall[2].x = 50;
+		this.pwall[2].y = this.boardy-10;
+
+		this.pwall[3].x = this.boardx-50;
+		this.pwall[3].y = this.boardy-10;
+		this.pwall[3].fall = false;
 
 
 		// :)
