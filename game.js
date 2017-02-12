@@ -5,7 +5,7 @@
 
     Ideas for new release:
      -> multiplayer
-     -> singleplayer (custom maps + timer + moving objects)
+     -> singleplayer (custom maps + timer + floating objects)
      -> menu
      -> half of fame
 */
@@ -44,6 +44,7 @@ var s_turbo = new Audio('sound/turbo.mp3');
 var s_engine = new Audio("sound/engine.wav");
 
 var player = new TPlayer();
+var pplayer = []
 var map = new TBoard(420, 400);
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +144,7 @@ function main() {
 	if (!player.tempturbo)
 		checkCollision();
 
-	moveWalls();
+	map.moveWalls();
 
     map.board[player.x][player.y] = dPlayer;
     player.draw(c);
@@ -208,7 +209,7 @@ function initGame(canvas) {
 
     canvas.addEventListener('click', function(evt) {
         var mousePos = getMousePos(canvas, evt);
-        mapEdit(Math.trunc(mousePos.x/5), Math.trunc(mousePos.y/5));
+        map.edit(Math.trunc(mousePos.x/5), Math.trunc(mousePos.y/5));
       }, false);
     
     canvas.width = swidth;

@@ -32,6 +32,9 @@ function TBoard(lengthX, lengthY) {
 	this.wall = new TWall();
 	this.pwall = [];
 
+	this.edit = function(x, y) { mapEdit(x, y) }
+	
+	this.moveWalls = function() { moveWalls(); }
 
 	this.draw = function() {
 		for (var i = 0; i < map.boardx; i+=psize)
