@@ -27,7 +27,7 @@ var mapy = 10;
 
 var c, canvas;
 
-var timer = 70;
+var timer = 65;
 
 var psize = 5;
 
