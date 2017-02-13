@@ -2,11 +2,15 @@
 	TPlayer
 */
 
+const dLeft = 0;
+const dRight = 1;
+const dUp = 2;
+const dDown = 3;
 
 function TPlayer(X, Y) {
     this.x = X;
     this.y = Y;
-    this.id = 1;
+    this.id = 0;
     this.direction = dRight;
     this.image = new Image();
     this.boomimg = new Image();
@@ -18,6 +22,8 @@ function TPlayer(X, Y) {
     this.jump = false;
     this.cjump;
     this.debugger = true;
+    this.name = "John Doe";
+    this.connected = false;
     
 
     this.draw = function(destination) { destination.drawImage(this.image, this.x+mapx, this.y+mapy) }
@@ -52,7 +58,7 @@ function TPlayer(X, Y) {
     	destination.fillText('Direction: '+dstr, swidth-150, 60);
     	destination.fillText('Turbo: '+this.cturbo, swidth-150, 75);
     	destination.fillText('Jump: '+this.cjump, swidth-150, 90);
-    	destination.fillText('Life: '+this.life, swidth-150, 105);
-    	destination.fillText('Turbo: '+this.tempturbo, swidth-150, 120);
+    	destination.fillText('Turbo: '+this.tempturbo, swidth-150, 105);
+        destination.fillText('Network: '+mpConnected, swidth-150, 120);
     }
 }

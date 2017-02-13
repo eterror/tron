@@ -14,11 +14,6 @@
 // PREDEFINED VALUES
 const version = "2.2";
 
-const dLeft = 0;
-const dRight = 1;
-const dUp = 2;
-const dDown = 3;
-
 // misc.js
 // board.js
 // player.js
@@ -44,7 +39,8 @@ var s_turbo = new Audio('sound/turbo.mp3');
 var s_engine = new Audio("sound/engine.wav");
 
 var player = new TPlayer();
-var pplayer = []
+var mplayer = new TPlayer();
+
 var map = new TBoard(420, 400);
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +60,12 @@ function restart() {
     player.cjump = 99;
     player.jump = false;
     player.turbo = false;
+
+    if (mpConnected) {
+    	mplayer.x = player.x;
+    	mplayer.y = 50;
+    	mplayer.direction = dDown;
+    }
 
     sleep(300);
     map.clear();
@@ -148,6 +150,11 @@ function main() {
 
     map.board[player.x][player.y] = dPlayer;
     player.draw(c);
+    sPositionUpdate();
+
+    if (mplayer.connected)
+    	drawMPlayer();
+
 
 	if (player.life == false) {
     	if (sound) {
@@ -201,6 +208,19 @@ function eventKey(k) {
     }
 }
 
+function startSP() {
+	restart();
+	setInterval(main, timer);
+}
+
+function startMP() {
+	sConnect();
+    sInit();
+    sPing();
+    restart();
+    setInterval(main, timer);
+}
+
 function initGame(canvas) {
     canvas = document.getElementById("game");
     c = canvas.getContext("2d");
@@ -227,13 +247,13 @@ function initGame(canvas) {
 
     player.boomimg.src = "img/boom.png";
     player.jumpimg.src = "img/jump.png";
-      
+
+    mplayer.image.src = 'img/mp.png';
+
     player.image.onload = function() { c.font="20px Consolas"; c.fillText('loading', 50, 50); clearCanvas(); }
     player.image.src = "img/p1.png";
 
-    restart();
-    
-    setInterval(main, timer);
+    startMP();
 }
 
 

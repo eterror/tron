@@ -9,6 +9,7 @@ const dBorder = 10;
 const dWall = 2;
 const dmWall = 3;
 const dPlayer = 1;
+const dmPlayer = 66;
 const dJump = 99;
 
 
@@ -45,6 +46,7 @@ function TBoard(lengthX, lengthY) {
       				case dmWall: c.drawImage(map.mwallimg, mapx+i, mapy+j); break;
       				case dBorder: c.drawImage(map.borderimg, mapx+i, mapy+j); break;
       				case dPlayer: c.drawImage(player.image, mapx+i, mapy+j); break;
+      				case dmPlayer: c.drawImage(mplayer.image, mapx+i, mapy+j); break;
       				//default dFloor: c.drawImage(map.netimg, i, j); break;
       			}
     		}
