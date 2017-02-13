@@ -18,7 +18,20 @@
  }
 
 
+function makeid()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
 function sInit() {
+	 player.name = makeid();
+
 	 socket.emit ('initialize', player);
 
  	 socket.emit('PlayerJoined', player.name);
@@ -34,26 +47,22 @@ function sInit() {
      socket.on('playerMoved', function (data) {
         movePlayer(data);
      });
-
- 
 }
 
 function  initPlayer(data) {
 	netID = data.id;
 	data.players[netID].name = player.name;
-	console.debug(data.players[netID].name+' initalized');
+	data.players[netID].id = data.id;
+	player.id = netID;
+	console.debug(data.players[netID].name+' initalized. My ID is '+netID);
 }
 
 function  addPlayer(data) {
-	console.debug(data.name+' joined.');
-	mplayer.x = 10;
-	mplayer.x = 10;
-	mplayer.z = dDown;
-	mplayer.connected = true;
+	console.debug(data.name+' joined. Player ID is '+data.id);
 }
 
-function sPositionUpdate() {
-	 socket.emit('positionUpdate', {id: netID, x: player.x, y: player.y, z: player.direction});
+function sPositionUpdate(data) {
+	 socket.emit('positionUpdate', {id: netID, x: data.x, y: data.y, z: data.direction});
 }
 
 function movePlayer(data) {

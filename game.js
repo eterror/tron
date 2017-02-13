@@ -12,7 +12,7 @@
 
 
 // PREDEFINED VALUES
-const version = "2.2";
+const version = "2.3";
 
 // misc.js
 // board.js
@@ -27,7 +27,7 @@ var mapy = 10;
 
 var c, canvas;
 
-var timer = 60;
+var timer = 70;
 
 var psize = 5;
 
@@ -40,6 +40,8 @@ var s_engine = new Audio("sound/engine.wav");
 
 var player = new TPlayer();
 var mplayer = new TPlayer();
+
+var multiplayer = false;
 
 var map = new TBoard(420, 400);
 
@@ -61,25 +63,42 @@ function restart() {
     player.jump = false;
     player.turbo = false;
 
-    if (mpConnected) {
-    	mplayer.x = player.x;
-    	mplayer.y = 50;
-    	mplayer.direction = dDown;
-    }
-
     sleep(300);
     map.clear();
-    map.pwall.length = 0;
-    map.generate();
+    map.pwall.length = 1;
+    map.level2();
 
     s_engine.play();
     s_engine.volume = .1;
 }
 
+function restartMP() {
+	map.clear();
+    map.level1();
+
+    player.x = (map.boardx) / 2;
+    player.y = (map.boardy) / 2;
+    player.life = true;
+    player.cturbo = 10;
+    player.cjump = 10;
+    player.direction = dLeft;
+
+    mplayer.x = player.x;
+    mplayer.y = player.y-50;
+    mplayer.life = true;
+    mplayer.cturbo = 10;
+    mplayer.cjump = 10;
+    mplayer.direction = dRight;
+}
 
 function checkCollision(dir) {
 	if (map.board[player.x][player.y] != dFloor) {
 		player.die();
+		return true;
+	}
+
+	if (multiplayer && map.board[mplayer.x][mplayer.y] != dFloor) {
+		mplayer.die();
 		return true;
 	}
 }
@@ -150,11 +169,11 @@ function main() {
 
     map.board[player.x][player.y] = dPlayer;
     player.draw(c);
-    sPositionUpdate();
-
-    if (mplayer.connected)
+    
+    if (multiplayer) {
+    	sPositionUpdate(player);
     	drawMPlayer();
-
+    }
 
 	if (player.life == false) {
     	if (sound) {
@@ -165,13 +184,15 @@ function main() {
 
     	player.kaboom(c);
 
-    	setTimeout(function(){restart()}, 0);
-    }
+    	if (multiplayer)
+    		setTimeout(function(){restartMP()}, 0); else 
+    		setTimeout(function(){restart()}, 0);
+   	}
 
-    	// debug mode
-    	player.debug(c);
+    // debug mode
+    player.debug(c);
 
-    	player.tempturbo = false;
+    player.tempturbo = false;
 }
 
 function getMousePos(canv, evt) {
@@ -195,7 +216,7 @@ function eventKey(k) {
 		case 88: player.turbo = true; break;
 		case 90: player.jump = true; break;
 		case 80: pause = !pause; break;
-		case 27: restart(); break;
+		case 27: if (multiplayer) restartMP(); else restart(); break;
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
 		case 68: clearCanvas(); mapx+=psize; map.draw(); break;
@@ -209,15 +230,19 @@ function eventKey(k) {
 }
 
 function startSP() {
+	multiplayer = false;
 	restart();
 	setInterval(main, timer);
 }
 
 function startMP() {
+	multiplayer = true;
 	sConnect();
     sInit();
     sPing();
-    restart();
+    
+    restartMP();
+
     setInterval(main, timer);
 }
 
@@ -253,7 +278,7 @@ function initGame(canvas) {
     player.image.onload = function() { c.font="20px Consolas"; c.fillText('loading', 50, 50); clearCanvas(); }
     player.image.src = "img/p1.png";
 
-    startMP();
+    startSP();
 }
 
 

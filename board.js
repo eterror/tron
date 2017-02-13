@@ -32,8 +32,27 @@ function TBoard(lengthX, lengthY) {
 
 	this.wall = new TWall();
 	this.pwall = [];
+	this.wallc = 0;
 
-	this.edit = function(x, y) { mapEdit(x, y) }
+	this.edit = function(x, y) {
+		var mx = x*psize, my = y*psize;
+
+		if (mx-mapx >= map.boardx || my-mapy >= this.boardy) {
+			return 0;
+		}
+
+		if (this.board[mx-mapx][my-mapy] == dBorder)
+			return 0;
+
+		if (this.board[mx-mapx][my-mapy] == dmWall)
+				this.board[mx-mapx][my-mapy] = dFloor; else {
+				map.wallc+=1;
+				this.pwall[this.wallc] = new TWall();
+				this.pwall[this.wallc].x = mx-mapx;
+				this.pwall[this.wallc].y = my-mapy;
+				this.pwall[this.wallc].fall = true;
+		}
+	}
 	
 	this.moveWalls = function() { moveWalls(); }
 
@@ -59,7 +78,19 @@ function TBoard(lengthX, lengthY) {
      		}
 	}
 
-	this.generate = function() {
+	this.level1 = function() {
+		for (var x = 0; x < this.boardx; ++x) {
+			this.board[x][0] = dBorder; 
+			this.board[x][this.boardy-psize] = dBorder; 
+		}
+
+		for (var x = 0; x < this.boardy; ++x) {
+			this.board[0][x] = dBorder; 
+			this.board[this.boardx-psize][x] = dBorder; 
+		}
+	}
+
+	this.level2 = function() {
 		for (var x = 0; x < this.boardx; ++x) {
 			this.board[x][0] = dBorder; 
 			this.board[x][this.boardy-psize] = dBorder; 
@@ -75,10 +106,10 @@ function TBoard(lengthX, lengthY) {
 			this.board[50][x] = dWall; 
 		}
 
-		this.pwall[0] = new TWall();
-		this.pwall[1] = new TWall();
-		this.pwall[2] = new TWall();
-		this.pwall[3] = new TWall();
+		this.wallc = 0; this.pwall[0] = new TWall();
+		this.wallc = 1; this.pwall[1] = new TWall();
+		this.wallc = 2; this.pwall[2] = new TWall();
+		this.wallc = 3; this.pwall[3] = new TWall();
 	
 		this.pwall[0].x = 50;
 		this.pwall[0].y = psize;
@@ -92,15 +123,6 @@ function TBoard(lengthX, lengthY) {
 		this.pwall[3].x = this.boardx-50;
 		this.pwall[3].y = this.boardy-10;
 		this.pwall[3].fall = false;
-
-
-		// :)
-		var c = 0;
-		for (;;) {
-			this.board[this.pwall[c].x][this.pwall[c].y] = dmWall;
-			c+=1;
-			if (c>=map.pwall.length) break;
-		}
 	}
 }
 
@@ -137,18 +159,4 @@ function moveWalls() {
 	}
 }
 
-function mapEdit(x, y) {
-	var mx = x*psize, my = y*psize;
-
-	if (mx-mapx >= map.boardx || my-mapy >= map.boardy) {
-		return 0;
-	}
-
-	if (map.board[mx-mapx][my-mapy] == dBorder)
-		return 0;
-
-	if (map.board[mx-mapx][my-mapy] == dWall)
-		map.board[mx-mapx][my-mapy] = dFloor; else
-		map.board[mx-mapx][my-mapy] = dWall;
-}
 
