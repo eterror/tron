@@ -22,8 +22,8 @@ const version = "2.3";
 var swidth = 1200;
 var sheight = 675;
 
-var mapx = 5;
-var mapy = 10;
+var mapx;
+var mapy;
 
 var c, canvas;
 
@@ -113,7 +113,9 @@ function main() {
 	map.draw(c);
 
 	if (pause) {
-		c.fillText('PAUSE', map.boardx/2, sheight/2)
+		c.font="50px Roboto";
+		c.fillText('PAUSE', swidth/2 - 100, sheight/2);
+		c.font="15px Roboto";
 		return 0;
 	}
 

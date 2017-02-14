@@ -1,2 +1,3 @@
-# xTron
+# xTron by solargrim@gmail.com
+
 
