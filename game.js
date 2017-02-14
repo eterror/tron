@@ -218,6 +218,8 @@ function getMousePos(canv, evt) {
 function eventKey(k) {
 	var key = k.keyCode;
 
+	k.preventDefault()
+
     switch (key) {
     	// Move
 		case 37: if (player.direction != dRight) player.direction = dLeft; break;
@@ -272,16 +274,12 @@ function initGame(canvas) {
     canvas = document.getElementById("game");
     c = canvas.getContext("2d");
 
-    //event.preventDefault();
-
     window.addEventListener("keydown", this.eventKey, true);
 
     canvas.addEventListener('click', function(evt) {
         var mousePos = getMousePos(canvas, evt);
         map.edit(Math.trunc(mousePos.x/5), Math.trunc(mousePos.y/5));
       }, false);
-
-    //event.preventDefault();
     
     canvas.width = swidth;
     canvas.height = sheight;
