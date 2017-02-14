@@ -19,8 +19,10 @@ function TPlayer(X, Y) {
     this.trubo = false;
     this.tempturbo = false;
     this.cturbo;
+    this.maxturbo;
     this.jump = false;
     this.cjump;
+    this.maxjump;
     this.debugger = true;
     this.name = "John Doe";
     this.connected = false;

@@ -25,11 +25,14 @@ function THud() {
 	}
 
 	this.update = function(dest) {
-		for (let i = 0; i < player.cturbo-3; ++i) {
+		var pt = (player.cturbo / player.maxturbo) * 100;
+		var pc = (player.cjump / player.maxjump) * 100;
+
+		for (let i = 0; i < pt - 3; ++i) {
 			dest.drawImage(this.slider1, 57+i, 555);
 		}
 
-		for (let i = 0; i < player.cjump-3; ++i) {
+		for (let i = 0; i < pc -3 ; ++i) {
 			dest.drawImage(this.slider1, 57+i, 588);
 		}
 	}

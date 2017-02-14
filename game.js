@@ -59,12 +59,16 @@ function restart() {
 
     player.life = true;
     player.direction = dLeft;
-    player.cturbo = 99;
-    player.tempturbo = false;
-    player.cjump = 99;
-    player.jump = false;
-    player.turbo = false;
 
+    player.tempturbo = false;
+    player.turbo = false;
+    player.maxturbo = 19;
+    player.cturbo  = player.maxturbo;
+
+    player.maxjump = 39;
+    player.cjump = player.maxjump;
+    player.jump = false;
+    
     sleep(300);
     map.clear();
     map.pwall.length = 1;
@@ -270,9 +274,12 @@ function initGame(canvas) {
     window.addEventListener("keydown", this.eventKey, true);
 
     canvas.addEventListener('click', function(evt) {
+    	evt.preventDefault();
         var mousePos = getMousePos(canvas, evt);
         map.edit(Math.trunc(mousePos.x/5), Math.trunc(mousePos.y/5));
       }, false);
+
+    //event.preventDefault();
     
     canvas.width = swidth;
     canvas.height = sheight;
