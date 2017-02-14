@@ -42,6 +42,8 @@ function TPlayer(X, Y) {
     	var dstr;
         var nx = this.x+mapx;
         var ny = this.y+mapy;
+        var dx = 50;
+        var dy = 150;
 
     	if (!this.debugger) {
     		return 0;
@@ -50,15 +52,13 @@ function TPlayer(X, Y) {
     	if (this.direction == dLeft) dstr="Left"; if (this.direction == dRight) dstr="Right";
     	if (this.direction == dUp) dstr="Up"; if (this.direction == dDown) dstr="Down";
 
-    	destination.fillStyle = "gray";
-    	destination.fillRect(swidth-160, 10, 150, 120);
-    	destination.fillStyle = "black";
-    	destination.fillText('X: '+nx+'   mx: '+Math.floor((nx)/psize), swidth-150, 30);
-    	destination.fillText('Y: '+ny+'   my: '+Math.floor((ny)/psize), swidth-150, 45);
-    	destination.fillText('Direction: '+dstr, swidth-150, 60);
-    	destination.fillText('Turbo: '+this.cturbo, swidth-150, 75);
-    	destination.fillText('Jump: '+this.cjump, swidth-150, 90);
-    	destination.fillText('Turbo: '+this.tempturbo, swidth-150, 105);
-        destination.fillText('Network: '+mpConnected, swidth-150, 120);
+    	destination.fillStyle = "white";
+    	destination.fillText('X: '+nx+'   mx: '+Math.floor((nx)/psize), dx, dy+30);
+    	destination.fillText('Y: '+ny+'   my: '+Math.floor((ny)/psize), dx, dy+45);
+    	destination.fillText('Direction: '+dstr, dx, dy+60);
+    	destination.fillText('Turbo: '+this.cturbo, dx, dy+75);
+    	destination.fillText('Jump: '+this.cjump, dx, dy+90);
+    	destination.fillText('Turbo: '+this.tempturbo, dx, dy+105);
+        destination.fillText('Network: '+mpConnected, dx, dy+120);
     }
 }

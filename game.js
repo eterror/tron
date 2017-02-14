@@ -19,7 +19,7 @@ const version = "2.3";
 // player.js
 
 /////////////////////////////////////////////////////////////////////////////////////
-var swidth = 1200;
+var swidth = 864;
 var sheight = 675;
 
 var mapx;
@@ -227,12 +227,12 @@ function eventKey(k) {
 		case 27: if (pause) pause = false; else pause = true; menu = !menu; break;
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
-		case 68: clearCanvas(); mapx+=psize; map.draw(); break;
-		case 65: clearCanvas(); mapx-=psize; map.draw(); break;
-		case 87: clearCanvas(); mapy-=psize; map.draw(); break;
-		case 83: clearCanvas(); mapy+=psize; map.draw(); break;
-		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); clearCanvas(); restart(); break;
-		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); clearCanvas(); restart(); break;
+		case 68: /*clearCanvas();*/ mapx+=psize; /*map.draw();*/ break;
+		case 65: /*clearCanvas();*/ mapx-=psize; /*map.draw();*/ break;
+		case 87: /*clearCanvas();*/ mapy-=psize; /*map.draw();*/ break;
+		case 83: /*clearCanvas();*/ mapy+=psize; /*map.draw();*/ break;
+		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); /*clearCanvas();*/ restart(); break;
+		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); /*clearCanvas();*/ restart(); break;
 		// -------DEBUG
     }
 
