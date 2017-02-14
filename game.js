@@ -105,6 +105,8 @@ function checkCollision(dir) {
 
 // other stuff
 function main() {
+	if (menu) return 0;
+
 	map.draw();
 
 	if (pause) {
@@ -216,7 +218,8 @@ function eventKey(k) {
 		case 88: player.turbo = true; break;
 		case 90: player.jump = true; break;
 		case 80: pause = !pause; break;
-		case 27: if (multiplayer) restartMP(); else restart(); break;
+		case 82: if (multiplayer) restartMP(); else restart(); break;
+		case 27: if (pause) pause = false; else pause = true; menu = !menu; break;
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
 		case 68: clearCanvas(); mapx+=psize; map.draw(); break;
@@ -227,9 +230,18 @@ function eventKey(k) {
 		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); clearCanvas(); restart(); break;
 		// -------DEBUG
     }
+
+    if (menu) {
+       switch (key) {
+			case 38: menuUp(); break;
+			case 40: menuDown(); break;	
+			case 13: menuEnter(); break;
+    	}
+    }
 }
 
 function startSP() {
+	console.debug('Starting singleplayer');
 	multiplayer = false;
 	restart();
 	setInterval(main, timer);
@@ -260,6 +272,8 @@ function initGame(canvas) {
     canvas.width = swidth;
     canvas.height = sheight;
 
+    c.font="15px Roboto";
+
 	$(s_engine).bind('ended', function()  {
     	s_engine.currentTime = 0;
     	s_engine.play();
@@ -275,10 +289,11 @@ function initGame(canvas) {
 
     mplayer.image.src = 'img/mp.png';
 
-    player.image.onload = function() { c.font="20px Consolas"; c.fillText('loading', 50, 50); clearCanvas(); }
+    player.image.onload = function() { c.fillText('loading', 50, 50); clearCanvas(); }
     player.image.src = "img/p1.png";
 
-    startSP();
+    initMenu();
+    setInterval(drawMenu, 10);
 }
 
 

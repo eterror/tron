@@ -52,7 +52,6 @@ function TPlayer(X, Y) {
     	destination.fillStyle = "gray";
     	destination.fillRect(swidth-160, 10, 150, 120);
     	destination.fillStyle = "black";
-    	destination.font = "15px Arial";
     	destination.fillText('X: '+nx+'   mx: '+Math.floor((nx)/psize), swidth-150, 30);
     	destination.fillText('Y: '+ny+'   my: '+Math.floor((ny)/psize), swidth-150, 45);
     	destination.fillText('Direction: '+dstr, swidth-150, 60);

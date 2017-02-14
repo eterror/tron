@@ -141,14 +141,14 @@ function moveWalls() {
 		if (map.board[map.pwall[c].x][map.pwall[c].y] != dFloor) {
 			if (map.pwall[c].fall)
 				map.pwall[c].y -= psize; else
-				map.pwall[c].y +=  psize;
+				map.pwall[c].y += psize;
 
 			map.pwall[c].fall = !map.pwall[c].fall;
 			continue;
 		}
 
 		if (map.pwall[c].fall) {
-			map.board[tx][map.pwall[c].y-psize] = dFloor
+			map.board[tx][map.pwall[c].y-psize] = dFloor;
 			map.board[tx][map.pwall[c].y] = dmWall; 
 		} else {
 			map.board[tx][map.pwall[c].y] = dmWall;
