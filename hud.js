@@ -33,7 +33,12 @@ function THud() {
 		}
 
 		for (let i = 0; i < pc -3 ; ++i) {
-			dest.drawImage(this.slider1, 57+i, 588);
+			dest.drawImage(this.slider1, 57+i, 589);
 		}
+
+		dest.font = "10px Roboto";
+		dest.fillText(player.cturbo, 160, 563);
+		dest.fillText(player.cjump, 160, 597);
+		dest.font = "15px Roboto";
 	}
 }
