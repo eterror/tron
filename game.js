@@ -19,8 +19,8 @@ const version = "2.3";
 // player.js
 
 /////////////////////////////////////////////////////////////////////////////////////
-var swidth = 600;
-var sheight = 500;
+var swidth = 1200;
+var sheight = 675;
 
 var mapx = 5;
 var mapy = 10;
@@ -40,6 +40,8 @@ var s_engine = new Audio("sound/engine.wav");
 
 var player = new TPlayer();
 var mplayer = new TPlayer();
+
+var hud = new THud();
 
 var multiplayer = false;
 
@@ -107,7 +109,8 @@ function checkCollision(dir) {
 function main() {
 	if (menu) return 0;
 
-	map.draw();
+	hud.draw(c);
+	map.draw(c);
 
 	if (pause) {
 		c.fillText('PAUSE', map.boardx/2, sheight/2)
@@ -278,6 +281,11 @@ function initGame(canvas) {
     	s_engine.currentTime = 0;
     	s_engine.play();
 	});
+
+	hud.load();
+
+	mapx = 350;
+	mapy = 130;
 
     map.borderimg.src = "img/border.png";
     map.wallimg.src = "img/wall.png";

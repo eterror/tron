@@ -32,6 +32,10 @@ function TPlayer(X, Y) {
 
     this.kaboom = function(destination) { 
     	destination.drawImage(this.boomimg, this.x+mapx, this.y+mapy);
+
+        for (let i = 1; i <= 25; ++i) {
+            //c.drawImage(this.boomimg, this.x+mapx-i/2, this.y+mapy-i/2, i, i * this.boomimg.height / this.boomimg.width);
+        }
     }
 
     this.debug = function (destination) { 
@@ -40,9 +44,6 @@ function TPlayer(X, Y) {
         var ny = this.y+mapy;
 
     	if (!this.debugger) {
-    		destination.fillStyle = "white";
-    		destination.fillRect(swidth-160, 10, 150, 120);
-
     		return 0;
     	}
 

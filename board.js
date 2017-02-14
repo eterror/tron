@@ -56,17 +56,16 @@ function TBoard(lengthX, lengthY) {
 	
 	this.moveWalls = function() { moveWalls(); }
 
-	this.draw = function() {
+	this.draw = function(dest) {
 		for (var i = 0; i < map.boardx; i+=psize)
       		for (var j = 0; j < map.boardy; j+=psize) {
       			switch (map.board[i][j]) {
-      				case dFloor: c.drawImage(map.netimg, mapx+i, mapy+j); break;
-      				case dWall: c.drawImage(map.wallimg, mapx+i, mapy+j); break;
-      				case dmWall: c.drawImage(map.mwallimg, mapx+i, mapy+j); break;
-      				case dBorder: c.drawImage(map.borderimg, mapx+i, mapy+j); break;
-      				case dPlayer: c.drawImage(player.image, mapx+i, mapy+j); break;
-      				case dmPlayer: c.drawImage(mplayer.image, mapx+i, mapy+j); break;
-      				//default dFloor: c.drawImage(map.netimg, i, j); break;
+      				case dFloor: dest.drawImage(map.netimg, mapx+i, mapy+j); break;
+      				case dWall: dest.drawImage(map.wallimg, mapx+i, mapy+j); break;
+      				case dmWall: dest.drawImage(map.mwallimg, mapx+i, mapy+j); break;
+      				case dBorder: dest.drawImage(map.borderimg, mapx+i, mapy+j); break;
+      				case dPlayer: dest.drawImage(player.image, mapx+i, mapy+j); break;
+      				case dmPlayer: dest.drawImage(mplayer.image, mapx+i, mapy+j); break;
       			}
     		}
 	}
