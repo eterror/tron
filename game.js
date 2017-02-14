@@ -1,7 +1,7 @@
 /*
     xTron by solaris (solargrim@gmail.com)
 
-    some description
+    a next tron game clone ;)
 
     Ideas for new release:
      -> multiplayer
@@ -10,13 +10,14 @@
      -> half of fame
 */
 
-
-// PREDEFINED VALUES
 const version = "2.3";
 
 // misc.js
 // board.js
 // player.js
+// multiplayer.js
+// menu.js
+// mission.js
 
 /////////////////////////////////////////////////////////////////////////////////////
 var swidth = 864;

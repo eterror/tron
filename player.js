@@ -58,9 +58,15 @@ function TPlayer(X, Y) {
     	destination.fillText('X: '+nx+'   mx: '+Math.floor((nx)/psize), dx, dy+30);
     	destination.fillText('Y: '+ny+'   my: '+Math.floor((ny)/psize), dx, dy+45);
     	destination.fillText('Direction: '+dstr, dx, dy+60);
-    	destination.fillText('Turbo: '+this.cturbo, dx, dy+75);
-    	destination.fillText('Jump: '+this.cjump, dx, dy+90);
+    	destination.fillText('Name: '+this.name, dx, dy+75);
+    	destination.fillText('ID: '+this.id, dx, dy+90);
     	destination.fillText('Turbo: '+this.tempturbo, dx, dy+105);
         destination.fillText('Network: '+mpConnected, dx, dy+120);
+
+        destination.fillText('Mouse click: insert floating wall', dx, dy+155);
+        destination.fillText('X: Turbo, Z: Jump, Q: debug mode', dx, dy+170);
+        destination.fillText('R: Restart, ESC: Menu, P : pause', dx, dy+185);
+        destination.fillText('WSAD: map position', dx, dy+200);
+        destination.fillText('keypad + -: map size', dx, dy+215);
     }
 }
