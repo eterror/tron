@@ -96,28 +96,27 @@ function drawMenu() {
 
 	let k = 0;
 
-	clearCanvas();
+	//clearCanvas();
+	hud.draw(c);
 
-	c.font="25px Roboto";
-	c.fillText("xTron "+version, swidth/2, (sheight/4)-50);
 	c.font="12px Roboto";
 	c.fillText("by solargrim@gmail.com", swidth/2, (sheight)-50);
-	c.font="15px Roboto";
+	c.font="18px Roboto";
 
 	for (let i = 0; i < item.length; ++i) {
+		c.fillStyle = "white";
 		c.fillText(item[i].name, swidth/2, (sheight/4)+k);
 		c.drawImage(selector.image, selector.x, selector.y);
 
 		if (i == selector.current) {
-			c.fillStyle = "white";
+			c.fillStyle = "#000000";
 			c.fillText(item[i].name, swidth/2, (sheight/4)+k);
-			c.fillStyle = "red";
-			c.font="21px Roboto";
+			c.fillStyle = "yellow";
 			c.fillText(item[i].name, swidth/2, (sheight/4)+k);
-			c.font="15px Roboto";
-			c.fillStyle = "black";
 		}
 		
-		k+=20;
+		k+=selector.size;
 	}
+
+	c.fillStyle = "white";
 }

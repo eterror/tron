@@ -28,7 +28,7 @@ var mapy;
 
 var c, canvas;
 
-var timer = 65;
+var timer = 60;
 
 var psize = 5;
 
@@ -47,6 +47,8 @@ var hud = new THud();
 var multiplayer = false;
 
 var map = new TBoard(420, 400);
+
+//var fps = new FPSMeter();
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,6 +114,8 @@ function checkCollision(dir) {
 
 // other stuff
 function main() {
+	//fps.tickStart();
+
 	if (menu) return 0;
 
 	hud.draw(c);
@@ -119,8 +123,12 @@ function main() {
 
 	if (pause) {
 		c.font="50px Roboto";
+		c.fillStyle = "red";
+		c.strokeStyle = "white";
+		c.strokeText('PAUSE', swidth/2 - 100, sheight/2);
 		c.fillText('PAUSE', swidth/2 - 100, sheight/2);
 		c.font="15px Roboto";
+		c.fillStyle = "white";
 		return 0;
 	}
 
@@ -205,6 +213,8 @@ function main() {
     player.debug(c);
 
     player.tempturbo = false;
+
+    //fps.tick();
 }
 
 function getMousePos(canv, evt) {
@@ -218,7 +228,7 @@ function getMousePos(canv, evt) {
 function eventKey(k) {
 	var key = k.keyCode;
 
-	k.preventDefault()
+	//k.preventDefault()
 
     switch (key) {
     	// Move
