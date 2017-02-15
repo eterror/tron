@@ -10,7 +10,7 @@
      -> half of fame
 */
 
-const version = "2.3";
+const version = "1.0.5";
 
 // misc.js
 // board.js
@@ -48,6 +48,8 @@ var multiplayer = false;
 
 var map = new TBoard(420, 400);
 
+var mission = [];
+
 //var fps = new FPSMeter();
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -65,16 +67,16 @@ function restart() {
 
     player.tempturbo = false;
     player.turbo = false;
-    player.maxturbo = 19;
+    player.maxturbo = 29;
     player.cturbo  = player.maxturbo;
 
-    player.maxjump = 39;
+    player.maxjump = 19;
     player.cjump = player.maxjump;
     player.jump = false;
     
     sleep(300);
     map.clear();
-    map.pwall.length = 1;
+    map.wall.length = 1;
     map.level2();
 
     s_engine.play();
@@ -185,7 +187,7 @@ function main() {
 	if (!player.tempturbo)
 		checkCollision();
 
-	map.moveWalls();
+	map.moveWalls(map);
 
     map.board[player.x][player.y] = dPlayer;
     player.draw(c);
@@ -288,7 +290,8 @@ function initGame(canvas) {
 
     canvas.addEventListener('click', function(evt) {
         var mousePos = getMousePos(canvas, evt);
-        map.edit(Math.trunc(mousePos.x/5), Math.trunc(mousePos.y/5));
+        if (!menu) 
+        	map.edit(Math.trunc(mousePos.x/5), Math.trunc(mousePos.y/5));
       }, false);
     
     canvas.width = swidth;
@@ -308,7 +311,7 @@ function initGame(canvas) {
 
     map.borderimg.src = "img/border.png";
     map.wallimg.src = "img/wall.png";
-    map.netimg.src = "img/net.png";
+    map.netimg.src = "img/floor.png";
     map.mwallimg.src = "img/mwall.png";
 
     player.boomimg.src = "img/boom.png";
@@ -319,8 +322,14 @@ function initGame(canvas) {
     player.image.onload = function() { c.fillText('loading', 50, 50); clearCanvas(); }
     player.image.src = "img/p1.png";
 
+	mission[0] = new TMission();
+	mission[0].id = 0;
+	mission[0].description = "Survive";
+	mission[0].goal = dmSurvive;
+	mission[0].board = map.level1;
+
     initMenu();
-    setInterval(drawMenu, 10);
+    setInterval(drawMenu, 1);
 }
 
 

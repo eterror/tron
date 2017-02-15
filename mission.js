@@ -9,6 +9,18 @@
   - map flip (random)
 */
 
+const dmSurvive = 0;
+const dmCollect = 1;
 
+function TMission() {
+	this.id;
+	this.description;
+	this.goal;
+	this.board;
+
+	this.init = function() {
+
+	}
+}
 
 

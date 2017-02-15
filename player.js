@@ -24,9 +24,9 @@ function TPlayer(X, Y) {
     this.cjump;
     this.maxjump;
     this.debugger = true;
+
     this.name = "John Doe";
     this.connected = false;
-    
 
     this.draw = function(destination) { destination.drawImage(this.image, this.x+mapx, this.y+mapy) }
     this.die = function() { this.life = false; } 
