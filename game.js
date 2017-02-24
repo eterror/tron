@@ -10,7 +10,7 @@
      -> half of fame
 */
 
-const version = "1.0.5";
+const version = "1.0.6";
 
 // misc.js
 // board.js
@@ -49,6 +49,7 @@ var multiplayer = false;
 var map = new TBoard(420, 400);
 
 var mission = [];
+var cmission = 0;
 
 //var fps = new FPSMeter();
 
@@ -75,12 +76,13 @@ function restart() {
     player.jump = false;
     
     sleep(300);
-    map.clear();
-    map.wall.length = 1;
-    map.level2();
 
     s_engine.play();
     s_engine.volume = .1;
+
+    map.clear();
+
+	map.runMap(cmission);
 }
 
 function restartMP() {
@@ -104,6 +106,11 @@ function restartMP() {
 
 function checkCollision(dir) {
 	if (map.board[player.x][player.y] != dFloor) {
+
+		if (mission[cmission].goal == dmCollect && map.board[player.x][player.y] == dCoin /* && time < mission.time */) {
+			console.debug('YOU WIN!');
+		}
+
 		player.die();
 		return true;
 	}
@@ -118,10 +125,13 @@ function checkCollision(dir) {
 function main() {
 	//fps.tickStart();
 
-	if (menu) return 0;
+	if (menu)
+		return 0;
 
 	hud.draw(c);
 	map.draw(c);
+
+	s_engine.volume = .1;
 
 	if (pause) {
 		c.font="50px Roboto";
@@ -256,22 +266,34 @@ function eventKey(k) {
     }
 
     if (menu) {
+       s_engine.volume = 0;
+
        switch (key) {
 			case 38: menuUp(); break;
 			case 40: menuDown(); break;	
 			case 13: menuEnter(); break;
+			case 37: menuLeft(); break;
+			case 39: menuRight(); break;
     	}
     }
 }
 
-function startSP() {
-	console.debug('Starting singleplayer');
-	multiplayer = false;
+function startTraining() {
+	console.debug('Starting Training mode');
+	cmission = 0;
 	restart();
 	setInterval(main, timer);
 }
 
-function startMP() {
+function startSingle(level) {
+	console.debug('Starting Campaign '+level);
+	cmission = level;
+	restart();
+	setInterval(main, timer);
+}
+
+function startMulti() {
+	console.debug('Starting mMltiplayer');
 	multiplayer = true;
 	sConnect();
     sInit();
@@ -313,6 +335,7 @@ function initGame(canvas) {
     map.wallimg.src = "img/wall.png";
     map.netimg.src = "img/floor.png";
     map.mwallimg.src = "img/mwall.png";
+    map.coinimg.src = "img/coin.png";
 
     player.boomimg.src = "img/boom.png";
     player.jumpimg.src = "img/jump.png";
@@ -322,11 +345,28 @@ function initGame(canvas) {
     player.image.onload = function() { c.fillText('loading', 50, 50); clearCanvas(); }
     player.image.src = "img/p1.png";
 
-	mission[0] = new TMission();
-	mission[0].id = 0;
-	mission[0].description = "Survive";
-	mission[0].goal = dmSurvive;
-	mission[0].board = map.level1;
+    cmission = 0;
+
+    mission[0] = new TMission();
+    mission[0].description = "Training";
+
+	mission[1] = new TMission();
+	mission[1].id = 0;
+	mission[1].description = "You need to survive";
+	mission[1].goal = dmSurvive;
+	mission[1].mmap = map.level1;
+
+	mission[2] = new TMission();
+	mission[2].id = 1;
+	mission[2].description = "You need to survive!";
+	mission[2].goal = dmSurvive;
+	mission[2].mmap = map.level2;
+
+	mission[3] = new TMission();
+	mission[3].id = 1;
+	mission[3].description = "Collect this coin fast as you can!";
+	mission[3].goal = dmCollect;
+	mission[3].mmap = map.level2;
 
     initMenu();
     setInterval(drawMenu, 1);

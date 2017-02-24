@@ -1,5 +1,8 @@
 /*
 	Game menu
+
+	Left/Right to change menu item value
+	Up/Down to change menu position
 */
 
 var menu = true;
@@ -10,9 +13,11 @@ function TItem() {
 }
 
 var item = [];
+var gvalue = 0;
 
 var selector = { image: new Image(), x: 0, y:0, current: 0, size: 20 }
 
+var multiOption = ["No", "Head 2 Head", "Create a game", "Join to game"];	
 
 function menuUp() {
 	selector.current-=1;
@@ -38,8 +43,21 @@ function menuDown() {
 	selector.y += selector.size;
 }
 
+function menuLeft() {
+	item[selector.current].value-=1;
+
+	if (item[selector.current].value <= 1)
+		item[selector.current].value = 1;
+}
+
+function menuRight() {
+	item[selector.current].value+=1;
+
+	if (item[selector.current].value >= item[selector.current].maxvalue)
+		item[selector.current].value = item[selector.current].maxvalue;
+}
+
 function menuHelp() {
-	//clearCanvas();
 	c.fillText('Cursors: movement', swidth/2, 100);
 	c.fillText('X: turbo',swidth/2 , 115 );
 	c.fillText('Z: jump',swidth/2 , 130);
@@ -52,14 +70,17 @@ function menuHelp() {
 	c.fillText('Mouse click: insert floating wall into map',swidth/2 , 235);
 }
 
-function menuSingleplayer() {
-	menu = false; if (pause) { restart(); pause = !pause; } else { startSP(); }
+function menuTraining() {
+	menu = false; if (pause) { restart(); pause = !pause; } else { startTraining(); }
+}
+
+function menuCampaign() {
+	menu = false; pause = false; startSingle(gvalue); 
 }
 
 function menuEnter() {
-	item[selector.current].runf();
-
-	console.debug("Item: "+item[selector.current].name);
+	gvalue = item[selector.current].value;
+	item[selector.current].runf(); 
 }
 
 function initMenu() {
@@ -70,23 +91,23 @@ function initMenu() {
 
 	item[0] = new TItem();
 	item[0].name = "Training";
-	item[0].runf = menuSingleplayer;
+	item[0].runf = menuTraining;
 
 	item[1] = new TItem();
-	item[1].name = "Campagin";
-	item[1].runf = drawMenu;
+	item[1].name = "Campaign";
+	item[1].value = 1;
+	item[1].maxvalue = mission.length-1;
+	item[1].runf = menuCampaign;
 
 	item[2] = new TItem();
 	item[2].name = "Multiplayer";
+	item[2].value = 1;
+	item[2].maxvalue = multiOption.length;
 	item[2].runf = drawMenu;
 
 	item[3] = new TItem();
-	item[3].name = "Settings";
-	item[3].runf = drawMenu;
-
-	item[4] = new TItem();
-	item[4].name = "Help";
-	item[4].runf = menuHelp;
+	item[3].name = "Help";
+	item[3].runf = menuHelp;
 }
 
 function drawMenu() {
@@ -95,8 +116,7 @@ function drawMenu() {
 	}
 
 	let k = 0;
-
-	//clearCanvas();
+	
 	hud.draw(c);
 
 	c.font="12px Roboto";
@@ -107,6 +127,13 @@ function drawMenu() {
 		c.fillStyle = "white";
 		c.fillText(item[i].name, swidth/2, (sheight/4)+k);
 		c.drawImage(selector.image, selector.x, selector.y);
+
+		
+		if (item[i].value > 0) {
+			if (item[i].name == "Multiplayer")
+				c.fillText(""+multiOption[item[i].value-1], swidth/2+200, (sheight/4)+k); else
+				c.fillText("level "+item[i].value, swidth/2+200, (sheight/4)+k);
+		}
 
 		if (i == selector.current) {
 			c.fillStyle = "#000000";

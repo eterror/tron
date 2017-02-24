@@ -16,11 +16,7 @@ function TMission() {
 	this.id;
 	this.description;
 	this.goal;
-	this.board;
+	this.mmap;
 
-	this.init = function() {
-
-	}
 }
-
 
