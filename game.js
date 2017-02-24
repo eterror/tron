@@ -92,10 +92,10 @@ function restart() {
 
     player.tempturbo = false;
     player.turbo = false;
-    player.maxturbo = 5;
+    player.maxturbo = mission[cmission].turbos;
     player.cturbo  = player.maxturbo;
 
-    player.maxjump = 3;
+    player.maxjump = mission[cmission].jumps;
     player.cjump = player.maxjump;
     player.jump = false;
     
@@ -377,26 +377,38 @@ function initGame(canvas) {
 
     mission[0] = new TMission();
     mission[0].description = "Training";
+    mission[0].name = "Training";
     mission[0].timer = 999;
     mission[0].goal = dmTraining;
+    mission[0].turbos = 999;
+    mission[0].jumps = 999;
 
 	mission[1] = new TMission();
-	mission[1].id = 0;
+	mission[1].id = 1;
 	mission[1].description = "You need to survive";
+	mission[1].name = 'ONE';
 	mission[1].goal = dmSurvive;
 	mission[1].timer = 5;
+	mission[1].turbos = 5;
+	mission[1].jumps = 5;
 
 	mission[2] = new TMission();
-	mission[2].id = 1;
+	mission[2].id = 2;
 	mission[2].description = "You need to survive!";
+	mission[2].name = "ENEMY";
 	mission[2].goal = dmSurvive;
 	mission[2].timer = 30;
+	mission[2].turbos = 10;
+	mission[2].jumps = 1;
 
 	mission[3] = new TMission();
-	mission[3].id = 1;
-	mission[3].description = "Collect this coin fast as you can!";
+	mission[3].id = 3;
+	mission[3].description = "Collect this coin fast as you can! Use Turbo!";
+	mission[3].name = "LABIRYNTH";
 	mission[3].goal = dmCollect;
-	mission[3].timer = 90;
+	mission[3].timer = 60;
+	mission[3].turbos = 99;
+	mission[3].jumps = 10;
 
     initMenu();
     menu = setInterval(drawMenu, 1);

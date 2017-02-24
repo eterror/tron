@@ -20,15 +20,15 @@ function THud() {
 
 		if (!menu) {
 			switch (mission[cmission].goal) {
-				case dmCollect: text = "COLLECT: level "+cmission; break;
-				case dmSurvive: text = "SURVIVE: level "+cmission; break;
+				case dmCollect: text = "mode COLLECT: level "+cmission; break;
+				case dmSurvive: text = "mode SURVIVE: level "+cmission; break;
 				default: text = "TRAINING"; break;
 			}
 
-			dest.fillText(text, 400, this.image.height-82);
-			dest.fillText(mission[cmission].description, 400, this.image.height-50);
+			dest.fillText(mission[cmission].name+' > '+text, 350, this.image.height-82);
+			dest.fillText(mission[cmission].description, 355, this.image.height-50);
 
-			dest.fillText(mtime+'/'+mission[cmission].timer+' sec.', 400, this.image.height-20);
+			dest.fillText(mtime+'/'+mission[cmission].timer+' sec.', 490, this.image.height-20);
 		}
 
 		if (menu) {
