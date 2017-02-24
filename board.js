@@ -83,10 +83,7 @@ function TBoard(lengthX, lengthY) {
       		   	this.board[i][j] = 0;
      		}
 
-     	for (var k = 0; k < this.wall.length; ++k) {
-     		delete this.wall[k];
-     	}
-
+     	this.wall = [];
 	}
 
 	this.runMap = function(dest) {
@@ -193,7 +190,7 @@ function TBoard(lengthX, lengthY) {
 		for (let y = 25; y < (this.boardy*psize); y+=50) 
 			for (let x = psize+15+psize; x < this.boardx-psize; ++x) this.board[x][y] = dBorder; 
 
-		this.board[this.boardx-psize*2][this.boardy-psize*2] = dCoin;
+		this.board[this.boardx-psize*3][this.boardy-psize*3] = dCoin;
 
 		player.x = this.boardx - psize;
 		player.y = psize+psize;

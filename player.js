@@ -63,7 +63,7 @@ function TPlayer(X, Y) {
     	destination.fillText('Mission: '+cmission, dx, dy+105);
         destination.fillText('Network: '+mpConnected, dx, dy+120);
 
-        destination.fillText('Mouse click: insert floating wall', dx, dy+155);
+        destination.fillText('Mouse click: insert static wall', dx, dy+155);
         destination.fillText('X: Turbo, Z: Jump, Q: debug mode', dx, dy+170);
         destination.fillText('R: Restart, ESC: Menu, P : pause', dx, dy+185);
         destination.fillText('WSAD: map position', dx, dy+200);

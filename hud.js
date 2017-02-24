@@ -27,6 +27,8 @@ function THud() {
 
 			dest.fillText(text, 400, this.image.height-82);
 			dest.fillText(mission[cmission].description, 400, this.image.height-50);
+
+			dest.fillText(mtime+'/'+mission[cmission].timer+' sec.', 400, this.image.height-20);
 		}
 
 		if (menu) {

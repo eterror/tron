@@ -71,11 +71,11 @@ function menuHelp() {
 }
 
 function menuTraining() {
-	menu = false; if (pause) { restart(); pause = !pause; } else { startTraining(); }
+	menu = false; startSingle(0); 
 }
 
-function menuCampaign() {
-	menu = false; pause = false; startSingle(gvalue); 
+function menuStart() {
+	menu = false; startSingle(gvalue); 
 }
 
 function menuEnter() {
@@ -97,7 +97,7 @@ function initMenu() {
 	item[1].name = "Campaign";
 	item[1].value = 1;
 	item[1].maxvalue = mission.length-1;
-	item[1].runf = menuCampaign;
+	item[1].runf = menuStart;
 
 	item[2] = new TItem();
 	item[2].name = "Multiplayer";
@@ -120,7 +120,7 @@ function drawMenu() {
 	hud.draw(c);
 
 	c.font="12px Roboto";
-	c.fillText("by solargrim@gmail.com", swidth/2, (sheight)-50);
+	c.fillText("by Solaris <solargrim@gmail.com>", swidth/2, (sheight)-50);
 	c.font="18px Roboto";
 
 	for (let i = 0; i < item.length; ++i) {

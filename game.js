@@ -10,7 +10,7 @@
      -> half of fame
 */
 
-const version = "1.0.6";
+const version = "1.0.7";
 
 // misc.js
 // board.js
@@ -51,10 +51,34 @@ var map = new TBoard(420, 400);
 var mission = [];
 var cmission = 0;
 
+var counter;
+var mtime;
+var tgame;
+
 //var fps = new FPSMeter();
 
 /////////////////////////////////////////////////////////////////////////////////////
+function missionTime() {
+	if (menu)
+		return;
 
+	if (cmission != 0)
+		mtime-=1;
+
+	if (mtime <= 0) {
+		if (mission[cmission].goal == dmCollect) {
+			console.debug('Timeout!');
+			player.die();
+		} else {
+			console.debug('You won!');
+			cmission+=1;
+			player.die();
+		}
+
+		clearInterval(counter);
+		return;	
+	}
+}
 
 function restart() {
     player.x = (map.boardx) / 2;
@@ -68,10 +92,10 @@ function restart() {
 
     player.tempturbo = false;
     player.turbo = false;
-    player.maxturbo = 29;
+    player.maxturbo = 5;
     player.cturbo  = player.maxturbo;
 
-    player.maxjump = 19;
+    player.maxjump = 3;
     player.cjump = player.maxjump;
     player.jump = false;
     
@@ -81,8 +105,10 @@ function restart() {
     s_engine.volume = .1;
 
     map.clear();
-
 	map.runMap(cmission);
+
+	mtime = mission[cmission].timer;
+	counter = setInterval(missionTime, 1000);
 }
 
 function restartMP() {
@@ -107,8 +133,14 @@ function restartMP() {
 function checkCollision(dir) {
 	if (map.board[player.x][player.y] != dFloor) {
 
-		if (mission[cmission].goal == dmCollect && map.board[player.x][player.y] == dCoin /* && time < mission.time */) {
+		if (mission[cmission].goal == dmCollect && map.board[player.x][player.y] == dCoin) {
 			console.debug('YOU WIN!');
+			cmission+=1;
+
+			if (cmission >= mission.length) {
+				console.debug("No more levels");
+				cmission = 0;
+			}
 		}
 
 		player.die();
@@ -253,7 +285,7 @@ function eventKey(k) {
 		case 90: player.jump = true; break;
 		case 80: pause = !pause; break;
 		case 82: if (multiplayer) restartMP(); else restart(); break;
-		case 27: if (pause) pause = false; else pause = true; menu = !menu; break;
+		case 27: menu = !menu; break;
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
 		case 68: /*clearCanvas();*/ mapx+=psize; /*map.draw();*/ break;
@@ -278,22 +310,18 @@ function eventKey(k) {
     }
 }
 
-function startTraining() {
-	console.debug('Starting Training mode');
-	cmission = 0;
-	restart();
-	setInterval(main, timer);
-}
-
 function startSingle(level) {
-	console.debug('Starting Campaign '+level);
+	if (tgame != null)
+		clearInterval(tgame);
+
+	console.debug('Starting '+level);
 	cmission = level;
 	restart();
-	setInterval(main, timer);
+	tgame = setInterval(main, timer);
 }
 
 function startMulti() {
-	console.debug('Starting mMltiplayer');
+	console.debug('Starting Multiplayer');
 	multiplayer = true;
 	sConnect();
     sInit();
@@ -301,7 +329,7 @@ function startMulti() {
     
     restartMP();
 
-    setInterval(main, timer);
+    tgame = setInterval(main, timer);
 }
 
 function initGame(canvas) {
@@ -349,27 +377,29 @@ function initGame(canvas) {
 
     mission[0] = new TMission();
     mission[0].description = "Training";
+    mission[0].timer = 999;
+    mission[0].goal = dmTraining;
 
 	mission[1] = new TMission();
 	mission[1].id = 0;
 	mission[1].description = "You need to survive";
 	mission[1].goal = dmSurvive;
-	mission[1].mmap = map.level1;
+	mission[1].timer = 5;
 
 	mission[2] = new TMission();
 	mission[2].id = 1;
 	mission[2].description = "You need to survive!";
 	mission[2].goal = dmSurvive;
-	mission[2].mmap = map.level2;
+	mission[2].timer = 30;
 
 	mission[3] = new TMission();
 	mission[3].id = 1;
 	mission[3].description = "Collect this coin fast as you can!";
 	mission[3].goal = dmCollect;
-	mission[3].mmap = map.level2;
+	mission[3].timer = 90;
 
     initMenu();
-    setInterval(drawMenu, 1);
+    menu = setInterval(drawMenu, 1);
 }
 
 

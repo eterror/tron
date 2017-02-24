@@ -11,12 +11,12 @@
 
 const dmSurvive = 0;
 const dmCollect = 1;
+const dmTraining = 2;
 
 function TMission() {
 	this.id;
 	this.description;
 	this.goal;
 	this.mmap;
-
 }
 
