@@ -12,6 +12,7 @@
 const dmSurvive = 0;
 const dmCollect = 1;
 const dmTraining = 2;
+const dmArmageddon = 3;
 
 function TMission() {
 	this.id;

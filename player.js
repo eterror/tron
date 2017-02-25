@@ -35,9 +35,8 @@ function TPlayer(X, Y) {
     this.print = function() { console.log('px: '+this.x + 'py: ' + this.y + '\n' + 'Life?: '+this.life) }
 
     this.win = function(dest) { 
-        console.debug('You win!');
         dest.fillText("AWESOME! YOU WIN", swidth/2, sheight/2); 
-        won = true;
+        this.won = true;
     }
 
     this.kaboom = function(destination) { 

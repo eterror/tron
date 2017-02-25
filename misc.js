@@ -27,4 +27,7 @@ function sleep(delay) {
   c.clearRect(0, 0, swidth, sheight);
 }
 
+function getRandom(min, max) {
+   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
  

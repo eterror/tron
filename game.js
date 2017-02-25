@@ -28,7 +28,7 @@ var mapx, mapy;
 
 var c, canvas;
 
-var timer = 60;
+var timer = 50;
 
 var psize = 5;
 
@@ -40,6 +40,7 @@ var s_boom = new Audio("sound/crash.mp3");
 var s_turbo = new Audio('sound/turbo.mp3');
 var s_engine = new Audio("sound/engine.wav");
 var s_win = new Audio("sound/win.wav");
+var s_jump = new Audio("sound/jump.wav");
 
 var player = new TPlayer();
 var mplayer = new TPlayer();
@@ -69,8 +70,11 @@ function missionTime() {
 		if (mission[cmission].goal == dmCollect) {
 			console.debug('Timeout!');
 			player.die();
+			return;
 		} else {
-			s_win.play();
+			if (sound)
+				s_win.play();
+
 			player.win(c);
 			cmission+=1;
 			player.die();
@@ -181,8 +185,23 @@ function main() {
 		return 0;
 	}
 
+	if (mission[cmission].goal == dmArmageddon) {
+		let rx = getRandom(psize, map.boardx/5-psize);
+		let ry = getRandom(psize, map.boardx/5-psize-psize);
+
+		rx*=psize;
+		ry*=psize;
+
+		if (rx != player.x && ry != player.y)
+			if (map.board[rx][ry] != dPlayer) 
+				map.board[rx][ry] = dWall;
+	}
+
 	// Jump!
 	if (player.jump && player.cjump >= 1) {
+
+		if (sound)
+			s_jump.play();
 
 		switch (player.direction) {
 			case dLeft: player.x-=(1*psize); break;
@@ -245,10 +264,13 @@ function main() {
     }
 
 	if (player.life == false) {
-    	if (sound && !player.won) {
+    	if (sound) {
     		s_engine.pause();
     		s_engine.currentTime = 0;
-    		s_boom.play();
+
+    		if (!player.won)
+    			s_boom.play();
+
     		player.won = false;
     	}
 
@@ -395,7 +417,6 @@ function initGame(canvas) {
     mission[0].jumps = 999;
 
 	mission[1] = new TMission();
-	mission[1].id = 1;
 	mission[1].description = "You have to survive in the designated Time!";
 	mission[1].name = 'WARM-UP';
 	mission[1].goal = dmSurvive;
@@ -404,7 +425,6 @@ function initGame(canvas) {
 	mission[1].jumps = 5;
 
 	mission[2] = new TMission();
-	mission[2].id = 2;
 	mission[2].description = "You have to survive in the designated Time!";
 	mission[2].name = "ENEMY";
 	mission[2].goal = dmSurvive;
@@ -413,7 +433,6 @@ function initGame(canvas) {
 	mission[2].jumps = 1;
 
 	mission[3] = new TMission();
-	mission[3].id = 3;
 	mission[3].description = "Collect this coin fast as you can! Use Turbo!";
 	mission[3].name = "LABIRYNTH";
 	mission[3].goal = dmCollect;
@@ -421,9 +440,17 @@ function initGame(canvas) {
 	mission[3].turbos = 99;
 	mission[3].jumps = 0;
 
+	mission[4] = new TMission();
+	mission[4].description = "Run away!";
+	mission[4].name = "GEDDON";
+	mission[4].goal = dmArmageddon;
+	mission[4].timer = 15;
+	mission[4].turbos = 10;
+	mission[4].jumps = 0;
+
     initMenu();
     tmenu = setInterval(drawMenu, 1);
-    /* level testing */ // menu = false; cmission = 1; startSingle(1);
+    /* level testing */ // menu = false; startSingle(4);
 }
 
 

@@ -92,6 +92,7 @@ function TBoard(lengthX, lengthY) {
 			case 1: this.level1(); break;
 			case 2: this.level2(); break;
 			case 3: this.level3(); break;
+			case 4: this.level4(); break;
 		}
 	}
 
@@ -209,6 +210,20 @@ function TBoard(lengthX, lengthY) {
 		player.x = this.boardx - psize;
 		player.y = psize+psize;
 		player.direction = dLeft;
+	}
+
+	this.level4 = function() {
+		for (var x = 0; x < this.boardx; ++x) {
+			this.board[x][0] = dBorder; 
+			this.board[x][this.boardy-psize] = dBorder; 
+		}
+
+		for (var x = 0; x < this.boardy; ++x) {
+			this.board[0][x] = dBorder; 
+			this.board[this.boardx-psize][x] = dBorder; 
+		}
+
+		player.direction = dRight;
 	}
 
 }
