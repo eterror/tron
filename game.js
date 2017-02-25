@@ -253,12 +253,8 @@ function main() {
 
     	player.kaboom(c);
 
-    	/* this sucks */
-    	if (multiplayer)
-    		tres = setTimeout(function(){restartMP()}, 0); else 
-    		tres = setTimeout(function(){restart()}, 0);
-
-    	//restart();
+    	startSingle(cmission);
+    	return;
    	}
 
     // debug mode
@@ -325,6 +321,9 @@ function startSingle(level) {
 
 	if (tmenu != null)
 		clearInterval(tmenu);
+
+	if (counter != null)
+		clearInterval(counter);
 
 	console.debug('Starting '+level);
 	cmission = level;
