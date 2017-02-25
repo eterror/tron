@@ -35,6 +35,7 @@ function THud() {
 			dest.fillText("Up/Down key: menu position", 50, 180);
 			dest.fillText('Left/Right key: change menu option', 50, 200);
 			dest.fillText('Enter: select menu option', 50, 220);
+			dest.fillText("ESC: back to menu/game", 50, 240);
 		}
 
 		this.update(dest);
