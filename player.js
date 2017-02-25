@@ -24,6 +24,7 @@ function TPlayer(X, Y) {
     this.cjump;
     this.maxjump;
     this.debugger = true;
+    this.won = false;
 
     this.name = "John Doe";
     this.connected = false;

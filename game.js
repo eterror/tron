@@ -10,7 +10,7 @@
      -> half of fame
 */
 
-const version = "1.0.8";
+const version = "1.0.9";
 
 // misc.js
 // board.js
@@ -72,9 +72,9 @@ function missionTime() {
 		} else {
 			console.debug('You won!');
 			s_win.play();
+			player.won = true;
 			cmission+=1;
-			//ayer.die();
-			startSingle(cmission);
+			player.die();
 		}
 
 		clearInterval(counter);
@@ -109,7 +109,6 @@ function restart() {
 
 	mtime = mission[cmission].timer;
 	counter = setInterval(missionTime, 1000);
-	clearTimeout(tres);
 }
 
 function restartMP() {
@@ -137,15 +136,16 @@ function checkCollision(dir) {
 		if (mission[cmission].goal == dmCollect && map.board[player.x][player.y] == dCoin) {
 			console.debug('YOU WIN!');
 			s_win.play();
+			player.won = true;
 			cmission+=1;
 
 			if (cmission >= mission.length) {
 				console.debug("No more levels");
 				cmission = 0;
-			}
+				player.die();
 
-			//clearInterval(counter);
-			//clearInterval(tgame);
+				return;
+			}
 
 			return;
 		}
@@ -247,10 +247,11 @@ function main() {
     }
 
 	if (player.life == false) {
-    	if (sound) {
+    	if (sound && !player.won) {
     		s_engine.pause();
     		s_engine.currentTime = 0;
     		s_boom.play();
+    		player.won = false;
     	}
 
     	player.kaboom(c);
@@ -409,7 +410,7 @@ function initGame(canvas) {
 	mission[2].description = "You need to survive!";
 	mission[2].name = "ENEMY";
 	mission[2].goal = dmSurvive;
-	mission[2].timer = 30;
+	mission[2].timer = 15;
 	mission[2].turbos = 10;
 	mission[2].jumps = 1;
 
@@ -418,9 +419,9 @@ function initGame(canvas) {
 	mission[3].description = "Collect this coin fast as you can! Use Turbo!";
 	mission[3].name = "LABIRYNTH";
 	mission[3].goal = dmCollect;
-	mission[3].timer = 60;
+	mission[3].timer = 45;
 	mission[3].turbos = 99;
-	mission[3].jumps = 10;
+	mission[3].jumps = 0;
 
     initMenu();
     tmenu = setInterval(drawMenu, 1);
