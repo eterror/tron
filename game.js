@@ -4,7 +4,7 @@
     a next tron game clone ;)
 
     Ideas for new release:
-     -> multiplayer
+     -> multiplayer (head2head, head2cpu, online)
      -> singleplayer (custom maps + timer + floating objects)
      -> menu
      -> half of fame
@@ -23,8 +23,8 @@ const version = "1.0.7";
 var swidth = 864;
 var sheight = 675;
 
-var mapx;
-var mapy;
+var map = new TBoard(420, 400);
+var mapx, mapy;
 
 var c, canvas;
 
@@ -33,6 +33,7 @@ var timer = 60;
 var psize = 5;
 
 var pause = false;
+var multiplayer = false;
 
 var sound = true;
 var s_boom = new Audio("sound/crash.mp3");
@@ -44,16 +45,14 @@ var mplayer = new TPlayer();
 
 var hud = new THud();
 
-var multiplayer = false;
-
-var map = new TBoard(420, 400);
-
 var mission = [];
 var cmission = 0;
 
 var counter;
 var mtime;
 var tgame;
+var tmenu;
+var tres;
 
 //var fps = new FPSMeter();
 
@@ -99,7 +98,7 @@ function restart() {
     player.cjump = player.maxjump;
     player.jump = false;
     
-    sleep(300);
+    //sleep(300);
 
     s_engine.play();
     s_engine.volume = .1;
@@ -109,11 +108,12 @@ function restart() {
 
 	mtime = mission[cmission].timer;
 	counter = setInterval(missionTime, 1000);
+	clearTimeout(tres);
 }
 
 function restartMP() {
 	map.clear();
-    map.level1();
+    map.level0();
 
     player.x = (map.boardx) / 2;
     player.y = (map.boardy) / 2;
@@ -141,6 +141,11 @@ function checkCollision(dir) {
 				console.debug("No more levels");
 				cmission = 0;
 			}
+
+			//clearInterval(counter);
+			//clearInterval(tgame);
+
+			return;
 		}
 
 		player.die();
@@ -248,9 +253,12 @@ function main() {
 
     	player.kaboom(c);
 
+    	/* this sucks */
     	if (multiplayer)
-    		setTimeout(function(){restartMP()}, 0); else 
-    		setTimeout(function(){restart()}, 0);
+    		tres = setTimeout(function(){restartMP()}, 0); else 
+    		tres = setTimeout(function(){restart()}, 0);
+
+    	//restart();
    	}
 
     // debug mode
@@ -299,6 +307,7 @@ function eventKey(k) {
 
     if (menu) {
        s_engine.volume = 0;
+       tmenu = setInterval(drawMenu, 1);
 
        switch (key) {
 			case 38: menuUp(); break;
@@ -313,6 +322,9 @@ function eventKey(k) {
 function startSingle(level) {
 	if (tgame != null)
 		clearInterval(tgame);
+
+	if (tmenu != null)
+		clearInterval(tmenu);
 
 	console.debug('Starting '+level);
 	cmission = level;
@@ -354,10 +366,13 @@ function initGame(canvas) {
     	s_engine.play();
 	});
 
-	hud.load();
-
 	mapx = 350;
 	mapy = 130;
+
+    player.boomimg.src = "img/boom.png";
+    player.jumpimg.src = "img/jump.png";
+    player.image.onload = function() { c.fillText('loading', 50, 50); clearCanvas(); }
+    player.image.src = "img/p1.png";
 
     map.borderimg.src = "img/border.png";
     map.wallimg.src = "img/wall.png";
@@ -365,13 +380,9 @@ function initGame(canvas) {
     map.mwallimg.src = "img/mwall.png";
     map.coinimg.src = "img/coin.png";
 
-    player.boomimg.src = "img/boom.png";
-    player.jumpimg.src = "img/jump.png";
-
     mplayer.image.src = 'img/mp.png';
 
-    player.image.onload = function() { c.fillText('loading', 50, 50); clearCanvas(); }
-    player.image.src = "img/p1.png";
+    hud.load();
 
     cmission = 0;
 
@@ -411,7 +422,7 @@ function initGame(canvas) {
 	mission[3].jumps = 10;
 
     initMenu();
-    menu = setInterval(drawMenu, 1);
+    tmenu = setInterval(drawMenu, 1);
 }
 
 
