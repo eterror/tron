@@ -14,10 +14,13 @@ const dmCollect = 1;
 const dmTraining = 2;
 const dmArmageddon = 3;
 
-function TMission() {
-	this.id;
-	this.description;
-	this.goal;
-	this.mmap;
+function TMission(Name, Descr, Goal, Timer, Turbos, Jumps) {
+	this.description = Descr;
+	this.name = Name;
+	this.goal = Goal;
+	this.timer = Timer;
+	this.turbos = Turbos;
+	this.jumps = Jumps;
+	this.current = 0;
 }
 

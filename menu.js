@@ -57,25 +57,23 @@ function menuRight() {
 		item[selector.current].value = item[selector.current].maxvalue;
 }
 
-function menuHelp() {
-	c.fillText('Cursors: movement', swidth/2, 100);
-	c.fillText('X: turbo',swidth/2 , 115 );
-	c.fillText('Z: jump',swidth/2 , 130);
-	c.fillText('R: restart',swidth/2 , 145);
-	c.fillText('ESC: menu',swidth/2 , 160);
-	c.fillText('P: pause',swidth/2 , 175);
-	c.fillText('Q: enable/disable debug info',swidth/2 , 190);
-	c.fillText('WSAD: map move',swidth/2 , 205);
-	c.fillText('+/- keypad: map size',swidth/2 , 220);
-	c.fillText('Mouse click: insert floating wall into map',swidth/2 , 235);
-}
-
 function menuTraining() {
 	menu = false; startSingle(0); 
 }
 
 function menuStart() {
 	menu = false; startSingle(gvalue); 
+}
+
+function menuMulti() {
+	gvalue = item[selector.current].value-1;
+
+	console.debug('multi: '+multiOption[gvalue]+' '+gvalue);
+
+	switch (gvalue) {
+		case 0: multiplayer = false; break;
+		case 3: menu = false; startMulti(); break;
+	}
 }
 
 function menuEnter() {
@@ -96,18 +94,14 @@ function initMenu() {
 	item[1] = new TItem();
 	item[1].name = "Campaign";
 	item[1].value = 1;
-	item[1].maxvalue = mission.length-1;
+	item[1].maxvalue = (mission.length-1);
 	item[1].runf = menuStart;
 
 	item[2] = new TItem();
 	item[2].name = "Multiplayer";
 	item[2].value = 1;
 	item[2].maxvalue = multiOption.length;
-	item[2].runf = drawMenu;
-
-	item[3] = new TItem();
-	item[3].name = "Help";
-	item[3].runf = menuHelp;
+	item[2].runf = menuMulti;
 }
 
 function drawMenu() {

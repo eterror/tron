@@ -1,3 +1,8 @@
+ /*
+    Multiplayer
+    This is still really unstable mode
+ */
+
  var socket;
  var mpConnected = false;
  var Network;
@@ -16,7 +21,6 @@
      	mpConnected = true;
      });
  }
-
 
 function makeid()
 {

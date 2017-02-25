@@ -19,16 +19,16 @@ function THud() {
 		dest.fillText('v'+version, 710, 20);
 
 		if (!menu) {
-			switch (mission[cmission].goal) {
-				case dmCollect: text = "mode COLLECT: level "+cmission; break;
-				case dmSurvive: text = "mode SURVIVE: level "+cmission; break;
+			switch (mission[mission.current].goal) {
+				case dmCollect: text = "mode COLLECT: level "+mission.current; break;
+				case dmSurvive: text = "mode SURVIVE: level "+mission.current; break;
 				default: text = "TRAINING"; break;
 			}
 
-			dest.fillText(mission[cmission].name+' > '+text, 350, this.image.height-82);
-			dest.fillText(mission[cmission].description, 355, this.image.height-50);
+			dest.fillText(mission[mission.current].name+' > '+text, 350, this.image.height-82);
+			dest.fillText(mission[mission.current].description, 355, this.image.height-50);
 
-			dest.fillText(mtime+'/'+mission[cmission].timer+' sec.', 490, this.image.height-20);
+			dest.fillText(mtime+'/'+mission[mission.current].timer+' sec.', 490, this.image.height-20);
 		}
 
 		if (menu) {

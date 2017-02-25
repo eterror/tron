@@ -48,7 +48,6 @@ var mplayer = new TPlayer();
 var hud = new THud();
 
 var mission = [];
-var cmission = 0;
 
 var counter;
 var mtime;
@@ -63,11 +62,11 @@ function missionTime() {
 	if (menu)
 		return;
 
-	if (cmission != 0)
+	if (mission.current != 0)
 		mtime-=1;
 
 	if (mtime <= 0) {
-		if (mission[cmission].goal == dmCollect) {
+		if (mission[mission.current].goal == dmCollect) {
 			console.debug('Timeout!');
 			player.die();
 			return;
@@ -76,7 +75,11 @@ function missionTime() {
 				s_win.play();
 
 			player.win(c);
-			cmission+=1;
+			mission.current+=1;
+
+			if (mission.current >= mission.length)
+				mission.current=0;
+
 			player.die();
 		}
 
@@ -96,10 +99,10 @@ function restart() {
 
     player.tempturbo = false;
     player.turbo = false;
-    player.maxturbo = mission[cmission].turbos;
+    player.maxturbo = mission[mission.current].turbos;
     player.cturbo  = player.maxturbo;
 
-    player.maxjump = mission[cmission].jumps;
+    player.maxjump = mission[mission.current].jumps;
     player.cjump = player.maxjump;
     player.jump = false;
 
@@ -107,16 +110,13 @@ function restart() {
     s_engine.volume = .1;
 
     map.clear();
-	map.runMap(cmission);
+	map.runMap(mission.current);
 
-	mtime = mission[cmission].timer;
+	mtime = mission[mission.current].timer;
 	counter = setInterval(missionTime, 1000);
 }
 
-function restartMP() {
-	map.clear();
-    map.level0();
-
+function restartMulti() {
     player.x = (map.boardx) / 2;
     player.y = (map.boardy) / 2;
     player.life = true;
@@ -130,20 +130,25 @@ function restartMP() {
     mplayer.cturbo = 10;
     mplayer.cjump = 10;
     mplayer.direction = dRight;
+
+    mission.current = 0;
+
+    map.clear();
+    map.runMap(0);
 }
 
 function checkCollision(dir) {
 	if (map.board[player.x][player.y] != dFloor) {
 
-		if (mission[cmission].goal == dmCollect && map.board[player.x][player.y] == dCoin) {
+		if (mission[mission.current].goal == dmCollect && map.board[player.x][player.y] == dCoin) {
 			console.debug('YOU WIN!');
 			s_win.play();
 			player.win(c);
-			cmission+=1;
+			mission.current+=1;
 
-			if (cmission >= mission.length) {
+			if (mission.current >= mission.length) {
 				console.debug("No more levels");
-				cmission = 0;
+				mission.current = 0;
 				player.die();
 
 				return;
@@ -185,7 +190,8 @@ function main() {
 		return 0;
 	}
 
-	if (mission[cmission].goal == dmArmageddon) {
+	/* Mission types */
+	if (mission[mission.current].goal == dmArmageddon) {
 		let rx = getRandom(psize, map.boardx/5-psize);
 		let ry = getRandom(psize, map.boardx/5-psize-psize);
 
@@ -276,7 +282,10 @@ function main() {
 
     	player.kaboom(c);
 
-    	startSingle(cmission);
+    	if (multiplayer) 
+    		startSingle(mission.current); else
+    		startMulti();
+
     	return;
    	}
 
@@ -311,7 +320,7 @@ function eventKey(k) {
 		case 88: player.turbo = true; break;
 		case 90: player.jump = true; break;
 		case 80: pause = !pause; break;
-		case 82: if (multiplayer) restartMP(); else restart(); break;
+		case 82: if (multiplayer) restartMulti(); else restart(); break;
 		case 27: menu = !menu; break;
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
@@ -349,21 +358,35 @@ function startSingle(level) {
 		clearInterval(counter);
 
 	console.debug('Starting :: '+level+" ("+mission[level].name+")");
-	cmission = level;
+	mission.current = level;
 	restart();
 	tgame = setInterval(main, timer);
 }
 
 function startMulti() {
+	if (tgame != null)
+		clearInterval(tgame);
+
+	if (tmenu != null)
+		clearInterval(tmenu);
+
 	console.debug('Starting Multiplayer');
 	multiplayer = true;
+	
 	sConnect();
     sInit();
     sPing();
     
-    restartMP();
+    restartMulti();
 
     tgame = setInterval(main, timer);
+}
+
+function startHead2Head() {
+	console.debug('Starting Head 2 Head');
+
+	tgame = setInterval(main, timer);
+	return;
 }
 
 function initGame(canvas) {
@@ -406,47 +429,11 @@ function initGame(canvas) {
 
     hud.load();
 
-    cmission = 0;
-
-    mission[0] = new TMission();
-    mission[0].description = "Training";
-    mission[0].name = "Training";
-    mission[0].timer = 999;
-    mission[0].goal = dmTraining;
-    mission[0].turbos = 999;
-    mission[0].jumps = 999;
-
-	mission[1] = new TMission();
-	mission[1].description = "You have to survive in the designated Time!";
-	mission[1].name = 'WARM-UP';
-	mission[1].goal = dmSurvive;
-	mission[1].timer = 10;
-	mission[1].turbos = 5;
-	mission[1].jumps = 5;
-
-	mission[2] = new TMission();
-	mission[2].description = "You have to survive in the designated Time!";
-	mission[2].name = "ENEMY";
-	mission[2].goal = dmSurvive;
-	mission[2].timer = 15;
-	mission[2].turbos = 10;
-	mission[2].jumps = 1;
-
-	mission[3] = new TMission();
-	mission[3].description = "Collect this coin fast as you can! Use Turbo!";
-	mission[3].name = "LABIRYNTH";
-	mission[3].goal = dmCollect;
-	mission[3].timer = 45;
-	mission[3].turbos = 99;
-	mission[3].jumps = 0;
-
-	mission[4] = new TMission();
-	mission[4].description = "Run away!";
-	mission[4].name = "GEDDON";
-	mission[4].goal = dmArmageddon;
-	mission[4].timer = 15;
-	mission[4].turbos = 10;
-	mission[4].jumps = 0;
+    mission[0] = new TMission("Training", "Training", dmTraining, 999, 999, 999);
+	mission[1] = new TMission('WARM-UP', "You have to survive in the designated Time!", dmSurvive, 10, 5, 5);
+	mission[2] = new TMission("ENEMY", "You have to survive in the designated Time!", dmSurvive, 15, 10, 1);
+	mission[3] = new TMission("LABIRYNTH", "Collect this coin fast as you can! Use Turbo!", dmCollect, 45, 99, 0);
+	mission[4] = new TMission("ARMAGEDDON", "Run away!", dmArmageddon, 15, 10, 0);
 
     initMenu();
     tmenu = setInterval(drawMenu, 1);
