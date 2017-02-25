@@ -10,7 +10,7 @@
      -> half of fame
 */
 
-const version = "1.0.7";
+const version = "1.0.8";
 
 // misc.js
 // board.js
@@ -39,6 +39,7 @@ var sound = true;
 var s_boom = new Audio("sound/crash.mp3");
 var s_turbo = new Audio('sound/turbo.mp3');
 var s_engine = new Audio("sound/engine.wav");
+var s_win = new Audio("sound/win.wav");
 
 var player = new TPlayer();
 var mplayer = new TPlayer();
@@ -70,8 +71,10 @@ function missionTime() {
 			player.die();
 		} else {
 			console.debug('You won!');
+			s_win.play();
 			cmission+=1;
-			player.die();
+			//ayer.die();
+			startSingle(cmission);
 		}
 
 		clearInterval(counter);
@@ -97,8 +100,6 @@ function restart() {
     player.maxjump = mission[cmission].jumps;
     player.cjump = player.maxjump;
     player.jump = false;
-    
-    //sleep(300);
 
     s_engine.play();
     s_engine.volume = .1;
@@ -135,6 +136,7 @@ function checkCollision(dir) {
 
 		if (mission[cmission].goal == dmCollect && map.board[player.x][player.y] == dCoin) {
 			console.debug('YOU WIN!');
+			s_win.play();
 			cmission+=1;
 
 			if (cmission >= mission.length) {
@@ -395,10 +397,10 @@ function initGame(canvas) {
 
 	mission[1] = new TMission();
 	mission[1].id = 1;
-	mission[1].description = "You need to survive";
-	mission[1].name = 'ONE';
+	mission[1].description = "You need to survive!";
+	mission[1].name = 'WARM-UP';
 	mission[1].goal = dmSurvive;
-	mission[1].timer = 5;
+	mission[1].timer = 10;
 	mission[1].turbos = 5;
 	mission[1].jumps = 5;
 
@@ -420,8 +422,9 @@ function initGame(canvas) {
 	mission[3].turbos = 99;
 	mission[3].jumps = 10;
 
-    initMenu();
-    tmenu = setInterval(drawMenu, 1);
+    //initMenu();
+    //tmenu = setInterval(drawMenu, 1);
+    /* level testing */ menu = false; cmission = 1; startSingle(1);
 }
 
 
