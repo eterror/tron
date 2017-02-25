@@ -422,9 +422,9 @@ function initGame(canvas) {
 	mission[3].turbos = 99;
 	mission[3].jumps = 10;
 
-    //initMenu();
-    //tmenu = setInterval(drawMenu, 1);
-    /* level testing */ menu = false; cmission = 1; startSingle(1);
+    initMenu();
+    tmenu = setInterval(drawMenu, 1);
+    /* level testing */ // menu = false; cmission = 1; startSingle(1);
 }
 
 
