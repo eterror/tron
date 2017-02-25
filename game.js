@@ -70,14 +70,12 @@ function missionTime() {
 			console.debug('Timeout!');
 			player.die();
 		} else {
-			console.debug('You won!');
 			s_win.play();
-			player.won = true;
+			player.win(c);
 			cmission+=1;
 			player.die();
 		}
 
-		clearInterval(counter);
 		return;	
 	}
 }
@@ -136,7 +134,7 @@ function checkCollision(dir) {
 		if (mission[cmission].goal == dmCollect && map.board[player.x][player.y] == dCoin) {
 			console.debug('YOU WIN!');
 			s_win.play();
-			player.won = true;
+			player.win(c);
 			cmission+=1;
 
 			if (cmission >= mission.length) {
@@ -328,7 +326,7 @@ function startSingle(level) {
 	if (counter != null)
 		clearInterval(counter);
 
-	console.debug('Starting '+level);
+	console.debug('Starting :: '+level+" ("+mission[level].name+")");
 	cmission = level;
 	restart();
 	tgame = setInterval(main, timer);
@@ -398,7 +396,7 @@ function initGame(canvas) {
 
 	mission[1] = new TMission();
 	mission[1].id = 1;
-	mission[1].description = "You need to survive!";
+	mission[1].description = "You have to survive in the designated Time!";
 	mission[1].name = 'WARM-UP';
 	mission[1].goal = dmSurvive;
 	mission[1].timer = 10;
@@ -407,7 +405,7 @@ function initGame(canvas) {
 
 	mission[2] = new TMission();
 	mission[2].id = 2;
-	mission[2].description = "You need to survive!";
+	mission[2].description = "You have to survive in the designated Time!";
 	mission[2].name = "ENEMY";
 	mission[2].goal = dmSurvive;
 	mission[2].timer = 15;

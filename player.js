@@ -31,7 +31,14 @@ function TPlayer(X, Y) {
 
     this.draw = function(destination) { destination.drawImage(this.image, this.x+mapx, this.y+mapy) }
     this.die = function() { this.life = false; } 
+
     this.print = function() { console.log('px: '+this.x + 'py: ' + this.y + '\n' + 'Life?: '+this.life) }
+
+    this.win = function(dest) { 
+        console.debug('You win!');
+        dest.fillText("AWESOME! YOU WIN", swidth/2, sheight/2); 
+        won = true;
+    }
 
     this.kaboom = function(destination) { 
     	destination.drawImage(this.boomimg, this.x+mapx, this.y+mapy);
