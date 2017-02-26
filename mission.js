@@ -14,6 +14,7 @@ const dmCollect = 1;
 const dmTraining = 2;
 const dmArmageddon = 3;
 
+
 function TMission(Name, Descr, Goal, Timer, Turbos, Jumps) {
 	this.description = Descr;
 	this.name = Name;

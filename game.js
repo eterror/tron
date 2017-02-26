@@ -325,12 +325,12 @@ function eventKey(k) {
 		/*   */ case 27: menu = !menu; break;
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
-		case 68:  mapx+=psize; startSingle(cmission); break;
-		case 65:  mapx-=psize; startSingle(cmission); break;
-		case 87:  mapy-=psize; startSingle(cmission); break;
-		case 83:  mapy+=psize; startSingle(cmission); break;
-		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); startSingle(cmission); break;
-		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); startSingle(cmission); break;
+		case 68:  mapx+=psize; startSingle(mission.current); break;
+		case 65:  mapx-=psize; startSingle(mission.current); break;
+		case 87:  mapy-=psize; startSingle(mission.current); break;
+		case 83:  mapy+=psize; startSingle(mission.current); break;
+		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); startSingle(mission.current); break;
+		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); startSingle(mission.current); break;
 		// -------DEBUG
     }
 
@@ -436,12 +436,11 @@ function initGame(canvas) {
 	mission[2] = new TMission("WAILING WALL", "You have to survive in the designated Time!", dmSurvive, 15, 10, 1);
 	mission[3] = new TMission("LABIRYNTH", "Collect this coin fast as you can! Use Turbo!", dmCollect, 45, 99, 0);
 	mission[4] = new TMission("ARMAGEDDON", "Run away!", dmArmageddon, 15, 10, 0);
-	mission[5] = new TMission("LAST", "Impossible?", dmCollect, 15, 1, 1);
-
+	mission[5] = new TMission("TIGHTLY", "Impossible?", dmCollect, 15, 1, 1);
 
     initMenu();
     tmenu = setInterval(drawMenu, 1);
-    /* level testing */ //menu = false; startSingle(5);
+    /* level testing */ // menu = false; startSingle(5);
 }
 
 
