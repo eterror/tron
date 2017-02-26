@@ -34,6 +34,7 @@ var psize = 5;
 
 var pause = false;
 var multiplayer = false;
+var release = true;
 
 var sound = true;
 var s_boom = new Audio("sound/crash.mp3");
@@ -315,7 +316,8 @@ function getMousePos(canv, evt) {
 function eventKey(k) {
 	var key = k.keyCode;
 
-	//k.preventDefault()
+	if (release)
+		k.preventDefault()
 
     switch (key) {
     	// Move

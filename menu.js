@@ -18,6 +18,7 @@ var gvalue = 0;
 var selector = { image: new Image(), x: 0, y:0, current: 0, size: 20 }
 
 var multiOption = ["No", "Head 2 Head", "Create a game", "Join to game"];	
+var diffOption = ["Easy", "Normal", "Hard"];
 
 function menuUp() {
 	selector.current-=1;
@@ -48,6 +49,9 @@ function menuLeft() {
 
 	if (item[selector.current].value <= 1)
 		item[selector.current].value = 1;
+
+	if (item[selector.current].name == "Difficulty")
+		menuSetDiff();
 }
 
 function menuRight() {
@@ -55,6 +59,9 @@ function menuRight() {
 
 	if (item[selector.current].value >= item[selector.current].maxvalue)
 		item[selector.current].value = item[selector.current].maxvalue;
+
+	if (item[selector.current].name == "Difficulty")
+		menuSetDiff();
 }
 
 function menuTraining() {
@@ -65,14 +72,25 @@ function menuStart() {
 	menu = false; startSingle(gvalue); 
 }
 
+function menuSetDiff() {
+	gvalue = item[selector.current].value-1;
+
+	switch (diffOption[gvalue]) {
+		case "Easy": timer = 60; break;
+		case "Normal": timer = 50; break;
+		case "Hard": timer = 40; break;
+	}
+
+}
+
 function menuMulti() {
 	gvalue = item[selector.current].value-1;
 
 	console.debug('multi: '+multiOption[gvalue]+' '+gvalue);
 
-	switch (gvalue) {
-		case 0: multiplayer = false; break;
-		case 3: menu = false; startMulti(); break;
+	switch (multiOption[gvalue]) {
+		case "No": multiplayer = false; break;
+		case "Join to game": menu = false; startMulti(); break;
 	}
 }
 
@@ -102,6 +120,12 @@ function initMenu() {
 	item[2].value = 1;
 	item[2].maxvalue = multiOption.length;
 	item[2].runf = menuMulti;
+
+	item[3] = new TItem();
+	item[3].name = "Difficulty";
+	item[3].value = 2;
+	item[3].maxvalue = diffOption.length;
+	item[3].runf = menuSetDiff;
 }
 
 function drawMenu() {
@@ -124,9 +148,11 @@ function drawMenu() {
 
 		
 		if (item[i].value > 0) {
-			if (item[i].name == "Multiplayer")
-				c.fillText(""+multiOption[item[i].value-1], swidth/2+200, (sheight/4)+k); else
-				c.fillText("level "+item[i].value, swidth/2+200, (sheight/4)+k);
+			switch (item[i].name) {
+				case "Multiplayer":	c.fillText(""+multiOption[item[i].value-1], swidth/2+200, (sheight/4)+k); break;
+				case "Campaign": c.fillText("level "+item[i].value, swidth/2+200, (sheight/4)+k); break;
+				case "Difficulty": c.fillText(diffOption[item[i].value-1], swidth/2+200, (sheight/4)+k); break;
+			}
 		}
 
 		if (i == selector.current) {
