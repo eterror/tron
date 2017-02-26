@@ -146,7 +146,8 @@ function drawMenu() {
 		c.fillText(item[i].name, swidth/2, (sheight/4)+k);
 		c.drawImage(selector.image, selector.x, selector.y);
 
-		
+		c.fillStyle = "gray";
+
 		if (item[i].value > 0) {
 			switch (item[i].name) {
 				case "Multiplayer":	c.fillText(""+multiOption[item[i].value-1], swidth/2+200, (sheight/4)+k); break;
@@ -154,6 +155,8 @@ function drawMenu() {
 				case "Difficulty": c.fillText(diffOption[item[i].value-1], swidth/2+200, (sheight/4)+k); break;
 			}
 		}
+
+		c.fillStyle = "white";
 
 		if (i == selector.current) {
 			c.fillStyle = "#000000";

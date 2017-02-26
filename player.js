@@ -74,8 +74,8 @@ function TPlayer(X, Y) {
     	destination.fillText('Y: '+ny+'   my: '+Math.floor((ny)/psize), dx, dy+45);
     	destination.fillText('Direction: '+dstr, dx, dy+60);
     	destination.fillText('Name: '+this.name, dx, dy+75);
-    	destination.fillText('ID: '+this.id, dx, dy+90);
-    	destination.fillText('Mission: '+mission.current, dx, dy+105);
+    	destination.fillText('Timer: '+timer, dx, dy+90);
+    	destination.fillText('Mission: '+mission.current+' ('+mission[mission.current].name+')', dx, dy+105);
         destination.fillText('Network: '+mpConnected, dx, dy+120);
 
         destination.fillText('Mouse click: insert static wall', dx, dy+155);

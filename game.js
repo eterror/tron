@@ -10,7 +10,7 @@
      -> half of fame
 */
 
-const version = "1.1.0";
+const version = "1.1.1";
 
 // misc.js
 // board.js
@@ -305,14 +305,6 @@ function main() {
     //fps.tick();
 }
 
-function getMousePos(canv, evt) {
-	var rect = canv.getBoundingClientRect();
-        return {
-          x: evt.clientX - rect.left,
-          y: evt.clientY - rect.top
-        };
-}
-
 function eventKey(k) {
 	var key = k.keyCode;
 
@@ -326,19 +318,19 @@ function eventKey(k) {
 		case 38: if (player.direction != dDown) player.direction = dUp; break;
 		case 40: if (player.direction != dUp) player.direction = dDown; break;
 		// Stuff
-		case 88: player.turbo = true; break;
-		case 90: player.jump = true; break;
-		case 80: pause = !pause; break;
-		case 82: if (multiplayer) restartMulti(); else restart(); break;
-		case 27: menu = !menu; break;
+		/* X */ case 88: player.turbo = true; break;
+		/* Z */ case 90: player.jump = true; break;
+		/* P */ case 80: pause = !pause; break;
+		/* R */ case 82: if (multiplayer) startMulti(); else startSingle(mission.current); break;
+		/*   */ case 27: menu = !menu; break;
 		// -------DEBUG
 		case 81: player.debugger = !player.debugger; break;  // Q
-		case 68: /*clearCanvas();*/ mapx+=psize; /*map.draw();*/ break;
-		case 65: /*clearCanvas();*/ mapx-=psize; /*map.draw();*/ break;
-		case 87: /*clearCanvas();*/ mapy-=psize; /*map.draw();*/ break;
-		case 83: /*clearCanvas();*/ mapy+=psize; /*map.draw();*/ break;
-		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); /*clearCanvas();*/ restart(); break;
-		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); /*clearCanvas();*/ restart(); break;
+		case 68:  mapx+=psize; startSingle(cmission); break;
+		case 65:  mapx-=psize; startSingle(cmission); break;
+		case 87:  mapy-=psize; startSingle(cmission); break;
+		case 83:  mapy+=psize; startSingle(cmission); break;
+		case 107: map.boardx+=20; map.boardy+=20; map.board = Array.matrix(map.boardx, map.boardy, 0); startSingle(cmission); break;
+		case 109: map.boardx-=20; map.boardy-=20; map.board = Array.matrix(map.boardx, map.boardy, 0); startSingle(cmission); break;
 		// -------DEBUG
     }
 

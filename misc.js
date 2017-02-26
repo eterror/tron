@@ -31,3 +31,11 @@ function getRandom(min, max) {
    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
  
+function getMousePos(canv, evt) {
+  var rect = canv.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
+}
+
