@@ -122,6 +122,10 @@ function restartMulti() {
     player.life = true;
     player.cturbo = 10;
     player.cjump = 10;
+    player.maxturbo = 10;
+    player.maxjump = 10;
+    player.jump = false;
+    player.turbo = false;
     player.direction = dLeft;
 
     mplayer.x = player.x + 2*psize;
@@ -134,7 +138,7 @@ function restartMulti() {
     mission.current = 0;
 
     map.clear();
-    map.runMap(0);
+    map.runMap(mission.current);
 }
 
 function checkCollision(dir) {
@@ -287,7 +291,7 @@ function main() {
 
     	if (!multiplayer) 
     		startSingle(mission.current); else
-    		startMulti();
+    		restartMulti();
 
     	return;
    	}
@@ -360,6 +364,7 @@ function startSingle(level) {
 	if (counter != null)
 		clearInterval(counter);
 
+	multiplayer = false;
 	console.debug('Starting :: '+level+" ("+mission[level].name+")");
 	mission.current = level;
 	restart();

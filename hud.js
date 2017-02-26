@@ -29,7 +29,9 @@ function THud() {
 			dest.fillText(mission[mission.current].description, 355, this.image.height-50);
 
 			dest.fillText("Attempt: "+player.attempt, 355, this.image.height-20);
-			dest.fillText(mtime+'/'+mission[mission.current].timer+' sec.', 580, this.image.height-20);
+			
+			if (!multiplayer)
+				dest.fillText(mtime+'/'+mission[mission.current].timer+' sec.', 580, this.image.height-20);
 		}
 
 		if (menu) {
