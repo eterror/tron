@@ -28,7 +28,8 @@ function THud() {
 			dest.fillText(mission[mission.current].name+' > '+text, 350, this.image.height-82);
 			dest.fillText(mission[mission.current].description, 355, this.image.height-50);
 
-			dest.fillText(mtime+'/'+mission[mission.current].timer+' sec.', 490, this.image.height-20);
+			dest.fillText("Attempt: "+player.attempt, 355, this.image.height-20);
+			dest.fillText(mtime+'/'+mission[mission.current].timer+' sec.', 580, this.image.height-20);
 		}
 
 		if (menu) {

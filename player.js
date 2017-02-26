@@ -25,18 +25,27 @@ function TPlayer(X, Y) {
     this.maxjump;
     this.debugger = true;
     this.won = false;
+    this.attempt = 0;
 
     this.name = "John Doe";
     this.connected = false;
 
-    this.draw = function(destination) { destination.drawImage(this.image, this.x+mapx, this.y+mapy) }
-    this.die = function() { this.life = false; } 
+    this.draw = function(destination) { 
+        destination.drawImage(this.image, this.x+mapx, this.y+mapy) 
+    }
+   
+    this.die = function() { 
+        this.attempt+=1; 
+        this.life = false; 
+    } 
 
     this.print = function() { console.log('px: '+this.x + 'py: ' + this.y + '\n' + 'Life?: '+this.life) }
 
     this.win = function(dest) { 
         dest.fillText("AWESOME! YOU WIN", swidth/2, sheight/2); 
         this.won = true;
+        this.attempt = 0;
+        console.debug('TUTAJ '+this.attempt)
     }
 
     this.kaboom = function(destination) { 

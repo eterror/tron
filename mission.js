@@ -22,5 +22,7 @@ function TMission(Name, Descr, Goal, Timer, Turbos, Jumps) {
 	this.turbos = Turbos;
 	this.jumps = Jumps;
 	this.current = 0;
+
+	// Half of Fame functions...
 }
 
