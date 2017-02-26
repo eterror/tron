@@ -117,15 +117,15 @@ function restart() {
 }
 
 function restartMulti() {
-    player.x = (map.boardx) / 2;
+    player.x = (map.boardx) / 2 - 2*psize;
     player.y = (map.boardy) / 2;
     player.life = true;
     player.cturbo = 10;
     player.cjump = 10;
     player.direction = dLeft;
 
-    mplayer.x = player.x;
-    mplayer.y = player.y-50;
+    mplayer.x = player.x + 2*psize;
+    mplayer.y = player.y;
     mplayer.life = true;
     mplayer.cturbo = 10;
     mplayer.cjump = 10;

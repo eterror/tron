@@ -45,7 +45,6 @@ function TPlayer(X, Y) {
         dest.fillText("AWESOME! YOU WIN", swidth/2, sheight/2); 
         this.won = true;
         this.attempt = 0;
-        console.debug('TUTAJ '+this.attempt)
     }
 
     this.kaboom = function(destination) { 
