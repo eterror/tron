@@ -180,6 +180,7 @@ function main() {
 	s_engine.volume = .1;
 
 	if (pause) {
+		s_engine.volume = 0;
 		c.font="50px Roboto";
 		c.fillStyle = "black";
 		c.strokeStyle = "white";
@@ -188,6 +189,8 @@ function main() {
 		c.font="15px Roboto";
 		c.fillStyle = "white";
 		return 0;
+
+		// Timer still counting -- need to fix
 	}
 
 	/* Mission types */
@@ -434,10 +437,12 @@ function initGame(canvas) {
 	mission[2] = new TMission("WAILING WALL", "You have to survive in the designated Time!", dmSurvive, 15, 10, 1);
 	mission[3] = new TMission("LABIRYNTH", "Collect this coin fast as you can! Use Turbo!", dmCollect, 45, 99, 0);
 	mission[4] = new TMission("ARMAGEDDON", "Run away!", dmArmageddon, 15, 10, 0);
+	mission[5] = new TMission("LAST", "Impossible?", dmCollect, 15, 1, 1);
+
 
     initMenu();
     tmenu = setInterval(drawMenu, 1);
-    /* level testing */ // menu = false; startSingle(4);
+    /* level testing */ //menu = false; startSingle(5);
 }
 
 

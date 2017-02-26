@@ -93,31 +93,28 @@ function TBoard(lengthX, lengthY) {
 			case 2: this.level2(); break;
 			case 3: this.level3(); break;
 			case 4: this.level4(); break;
+			case 5: this.level5(); break;
+		}
+	}
+
+	this.drawBorder = function() {
+		for (var x = 0; x < this.boardx; ++x) {
+			this.board[x][0] = dBorder; 
+			this.board[x][this.boardy-psize] = dBorder; 
+		}
+
+		for (var x = 0; x < this.boardy; ++x) {
+			this.board[0][x] = dBorder; 
+			this.board[this.boardx-psize][x] = dBorder; 
 		}
 	}
 
 	this.level0 = function() { // TRAINING MAP
-		for (var x = 0; x < this.boardx; ++x) {
-			this.board[x][0] = dBorder; 
-			this.board[x][this.boardy-psize] = dBorder; 
-		}
-
-		for (var x = 0; x < this.boardy; ++x) {
-			this.board[0][x] = dBorder; 
-			this.board[this.boardx-psize][x] = dBorder; 
-		}
+		this.drawBorder();
 	}
 
 	this.level1 = function() {
-		for (var x = 0; x < this.boardx; ++x) {
-			this.board[x][0] = dBorder; 
-			this.board[x][this.boardy-psize] = dBorder; 
-		}
-
-		for (var x = 0; x < this.boardy; ++x) {
-			this.board[0][x] = dBorder; 
-			this.board[this.boardx-psize][x] = dBorder; 
-		}
+		this.drawBorder();
 	
 		for (var x = psize+50; x < this.boardy-psize-50; ++x) { 
 			this.board[this.boardx-50][x] = dWall; 
@@ -157,15 +154,7 @@ function TBoard(lengthX, lengthY) {
 	}
 
 	this.level2 = function() {
-		for (var x = 0; x < this.boardx; ++x) {
-			this.board[x][0] = dBorder; 
-			this.board[x][this.boardy-psize] = dBorder; 
-		}
-
-		for (var x = 0; x < this.boardy; ++x) {
-			this.board[0][x] = dBorder; 
-			this.board[this.boardx-psize][x] = dBorder; 
-		}
+		this.drawBorder();
 
 		this.wallc = 0;
 		let c = psize;
@@ -190,15 +179,8 @@ function TBoard(lengthX, lengthY) {
 	}
 
 	this.level3 = function() {
-		for (var x = 0; x < this.boardx; ++x) {
-			this.board[x][0] = dBorder; 
-			this.board[x][this.boardy-psize] = dBorder; 
-		}
+		this.drawBorder();
 
-		for (var x = 0; x < this.boardy; ++x) {
-			this.board[0][x] = dBorder; 
-			this.board[this.boardx-psize][x] = dBorder; 
-		}
 		for (let y = 50; y < (this.boardy*psize); y+=50) 
 			for (let x = psize; x < this.boardx-psize-15; ++x) this.board[x][y] = dWall; 
 
@@ -213,17 +195,54 @@ function TBoard(lengthX, lengthY) {
 	}
 
 	this.level4 = function() {
-		for (var x = 0; x < this.boardx; ++x) {
-			this.board[x][0] = dBorder; 
-			this.board[x][this.boardy-psize] = dBorder; 
-		}
-
-		for (var x = 0; x < this.boardy; ++x) {
-			this.board[0][x] = dBorder; 
-			this.board[this.boardx-psize][x] = dBorder; 
-		}
-
+		this.drawBorder();
 		player.direction = dRight;
+	}
+
+	this.level5 = function() {
+		this.drawBorder();
+
+		this.wallc = 0;
+		let c = 0;
+
+		for (var k = psize; k < map.boardx; k+=5) {
+			c+=5;
+			this.wall[this.wallc] = new TWall();
+			this.wall[this.wallc].x = k;
+			this.wall[this.wallc].y = psize;
+			this.wall[this.wallc].fall = true;
+			this.wall[this.wallc].horizon = false;
+			++this.wallc;
+		}
+
+		for (var k = psize; k < map.boardx; k+=5) {
+			c+=5;
+			this.wall[this.wallc] = new TWall();
+			this.wall[this.wallc].x = k;
+			this.wall[this.wallc].y = map.boardy-psize-psize;
+			this.wall[this.wallc].fall = false;
+			this.wall[this.wallc].horizon = false;
+			++this.wallc;
+		}
+
+		player.x = 0;
+		player.y = this.boardy/2;
+		player.direction = dRight;
+
+		this.board[this.boardx-50][this.boardy/2] = dCoin;
+
+		this.board[this.boardx-60][this.boardy/2] = dWall;
+		this.board[this.boardx-60][this.boardy/2-5] = dWall;
+		this.board[this.boardx-60][this.boardy/2-10] = dWall;
+		this.board[this.boardx-60][this.boardy/2+5] = dWall;
+		this.board[this.boardx-60][this.boardy/2+10] = dWall;
+
+		this.board[this.boardx-55][this.boardy/2+10] = dWall;
+		this.board[this.boardx-55][this.boardy/2-10] = dWall;
+		this.board[this.boardx-50][this.boardy/2+10] = dWall;
+		this.board[this.boardx-50][this.boardy/2-10] = dWall;
+		this.board[this.boardx-45][this.boardy/2+10] = dWall;
+		this.board[this.boardx-45][this.boardy/2-10] = dWall;
 	}
 
 }
