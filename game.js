@@ -10,7 +10,7 @@
      -> half of fame
 */
 
-const version = "1.0.9";
+const version = "1.1.0";
 
 // misc.js
 // board.js
@@ -181,10 +181,10 @@ function main() {
 
 	if (pause) {
 		c.font="50px Roboto";
-		c.fillStyle = "red";
+		c.fillStyle = "black";
 		c.strokeStyle = "white";
-		c.strokeText('PAUSE', swidth/2 - 100, sheight/2);
-		c.fillText('PAUSE', swidth/2 - 100, sheight/2);
+		c.strokeText('PAUSE', mapx + mapx/2, sheight/2);
+		c.fillText('PAUSE', mapx + mapx/2, sheight/2);
 		c.font="15px Roboto";
 		c.fillStyle = "white";
 		return 0;
@@ -256,10 +256,10 @@ function main() {
 		} 
 	}
 
+	map.moveWalls(map);
+
 	if (!player.tempturbo)
 		checkCollision();
-
-	map.moveWalls(map);
 
     map.board[player.x][player.y] = dPlayer;
     player.draw(c);
@@ -282,7 +282,7 @@ function main() {
 
     	player.kaboom(c);
 
-    	if (multiplayer) 
+    	if (!multiplayer) 
     		startSingle(mission.current); else
     		startMulti();
 
@@ -431,7 +431,7 @@ function initGame(canvas) {
 
     mission[0] = new TMission("Training", "Training", dmTraining, 999, 999, 999);
 	mission[1] = new TMission('WARM-UP', "You have to survive in the designated Time!", dmSurvive, 10, 5, 5);
-	mission[2] = new TMission("ENEMY", "You have to survive in the designated Time!", dmSurvive, 15, 10, 1);
+	mission[2] = new TMission("WAILING WALL", "You have to survive in the designated Time!", dmSurvive, 15, 10, 1);
 	mission[3] = new TMission("LABIRYNTH", "Collect this coin fast as you can! Use Turbo!", dmCollect, 45, 99, 0);
 	mission[4] = new TMission("ARMAGEDDON", "Run away!", dmArmageddon, 15, 10, 0);
 
